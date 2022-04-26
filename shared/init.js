@@ -36,6 +36,7 @@ module.exports = async function init(app) {
       // let the next middleware run:
       next();
   };
+  
   app.use(
       session({
           name: 'AuthCookie',

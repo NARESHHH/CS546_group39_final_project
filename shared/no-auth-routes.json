@@ -1,3 +1,5 @@
 {
-    "/signup": ["POST"]
+    "/signup": ["POST","PUT","GET"],
+    "/":["GET"],
+    "/login" : ["GET","POST","PUT"]
 }

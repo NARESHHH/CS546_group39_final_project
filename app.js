@@ -16,5 +16,18 @@ async function startUp() {
   await init(app);
   app.use(logging);
   app.use(authenticate);
+  app.use('/private', async (req, res, next) => {
+    let userInfo = req.session.user;
+    
+    if (!userInfo) {
+      let title = 'User is not logged in, Error 403'
+      res.status(403).render('private',  {error : true, title : title});
+    }
+    else {
+      next();
+    }  
+  });
+  
   await routes(app);
 };
+
