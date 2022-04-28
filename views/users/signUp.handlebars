@@ -1,0 +1,54 @@
+<h1>{{title}}</h1>
+<br />
+<form method="POST" id="signup-form" action="/signup">
+<label>First Name:
+    <input
+      type="text"
+      name="signup-firstName"
+      id="signup-firstName"
+      placeholder="Enter firstName"
+      value="{{userInfo.firstName}}"
+        required
+    />
+</label>
+    <br/>
+    <label>Last Name:
+    <input
+      type="text"
+      name="signup-lastName"
+      id="signup-lastName"
+      placeholder="Enter lastName"
+      value="{{userInfo.lastName}}"
+        required
+    />
+    </label><br/>
+  <label>User Name:
+    <input
+      type="email"
+      name="signup-username"
+      id="signup-username"
+      placeholder="Enter username"
+      value="{{userInfo.username}}"
+        required
+      pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.edu$"
+      title="Please enter an edu mail"
+    />
+  </label><br /><br />
+  <label>Password:
+    <input
+      type="password"
+      name="signup-password"
+      id="signup-password"
+      placeholder="Enter password"
+      value="{{userInfo.password}}"
+        required
+      pattern="^[a-zA-Z0-9@.!_].{5,20}$"
+        title="Please include one uppercase, one lowercase, one special character, one number and min length of 5 and max length of 20"
+    />
+  </label><br /><br />
+  <button type="submit">Submit</button>
+</form>
+<br />
+<div id="server-error" class="error"></div>
+<div id="login-error" class="error"></div>
+<a href="/users/login">Already have an account? Click here to log-in</a>
