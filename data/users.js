@@ -1,43 +1,74 @@
 const Users = require('../models/users');
 const validator = require('../validators/users');
+const ClientError = require('../shared/client-error');
+const ServerError = require('../shared/server-error');
 const bcrypt = require('bcrypt');
 const salt = 10;
 
 
-const checkUser = async (username,password)=>{
+module.exports = {
+    getLoginPage,
+    getSignUpPage,
+    login,
+    signUp,
+};
 
-    
-    const { error } = validator.validateUserSignUp();
-        if (error) {
-          throw error.message;
+async function getLoginPage(req, res, next) {
+    try {
+        return res.render('users/login');
+    } catch (error) {
+        if (error instanceof ServerError) {
+            next(error);
         }
+        next(new ServerError(500, error.message));
+    }
+};
+
+
+async function getSignUpPage(req, res, next) {
+    try {
+        return res.render('users/signup');
+    } catch (error) {
+        if (error instanceof ServerError) {
+            next(error);
+        }
+        next(new ServerError(500, error.message));
+    }
+};
+
+async function login(req, res, next) {
+    try {
+        const reqBody = req.body;
         
-    const user = await Users.findOne({username: username.toLowerCase()});
-
-    if (user === null) {
-        throw new Error("Error Occured: Check username and password");
-    }
-
-    let compareFlag = false;
-
-    if(user.username == username.toLowerCase()){
-        try {
-            compareFlag = await bcrypt.compare(password, user.password);
-        } catch (e) {
-            throw new Error(e);
+        const { error } = validator.validateUserLogin(reqBody);
+            if (error) {
+              throw new ServerError(400, error.message);
+            }
+            
+        const username = reqBody.username;
+        const password = reqBody.password;
+    
+        const user = await Users.findOne({username: username.toLowerCase()});
+    
+        if (!user) {
+            throw new ServerError(400, `User does not exists with given username ${username}`);
         }
-    }
-
-    if (compareFlag) {
-        return {authenticated: true};
-    } else {
-        throw new Error("Error Occured: Check username and password");
+    
+        if (!await bcrypt.compare(password, user.password)) {
+            throw new ServerError(400, 'Password does not match, Please Re-enter password');
+        }
+    
+        req.session.user = user.id;
+    
+        return res.redirect('/users/getRecommendations');
+        
+    } catch (error) {
+        if (error instanceof ServerError) {
+            next(error);
+        }
+        next(new ServerError(500, error.message));
     }
 }
-module.exports = {
-    signUp,
-    checkUser
-};
 
 async function signUp(req, res, next) {
     try {
@@ -45,14 +76,14 @@ async function signUp(req, res, next) {
     
         const { error } = validator.validateUserSignUp(requestBody);
         if (error) {
-          throw error.message;
+          throw new ServerError(400, error.message);
         }
         
         const username = requestBody.username.toLowerCase();
 
         const user = await Users.findOne({ username: username});
 
-        if (user) throw 'User already exists with given username';
+        if (user) throw new ServerError(400, 'User already exists with given username');
 
         const password = await bcrypt.hash(requestBody.password, salt);
 
@@ -63,10 +94,12 @@ async function signUp(req, res, next) {
             password: password,
         });
 
-        return;
-        
+        return res.send("user created successfully");
     } catch (error) {
-        return res.status(400).send(error);
+        if (error instanceof ServerError) {
+            next(error);
+        }
+        next(new ServerError(500, error.message));
     }
 
 }

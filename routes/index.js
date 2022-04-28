@@ -1,13 +1,7 @@
-const users = require('../data/users');
-const signupRoutes = require('./signUp');
-const logInRoutes = require('./logIn');
-const privateRoutes = require('./private');
+const users = require('./users');
 const constructorMethod = (app) => {
 
-  app.use('/', logInRoutes);
-  app.use('/login', logInRoutes);
-  app.use('/private', privateRoutes);
-  app.use('/signup', signupRoutes);
+  app.use('/users', users);
  
   app.use('*', (req, res) => {
     res.sendStatus(404);

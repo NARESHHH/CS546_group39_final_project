@@ -24,7 +24,6 @@ module.exports = {
 
 function validateUserLogin(Username,password) {
     const schema = Joi.object().keys({
-        
         username: Joi.string().email().required(),
         password: Joi.string().required(),
    });

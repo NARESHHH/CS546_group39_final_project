@@ -1,5 +1,4 @@
 const express = require('express');
-const static = express.static(__dirname + '/public');
 const exphbs = require('express-handlebars');
 const Handlebars = require('handlebars');
 const mongoInit = require('../shared/mongoConnection');
@@ -9,7 +8,7 @@ const session = require('express-session');
  *
  * @param {*} app
  */
-module.exports = async function init(app) {
+module.exports = function init(app) {
     mongoInit();
     const handlebarsInstance = exphbs.create({
       defaultLayout: 'main',
@@ -47,21 +46,11 @@ module.exports = async function init(app) {
       })
   );
     
-    app.use('/public', static);
     app.use(express.json());
     app.use(express.urlencoded({extended: true}));
     app.use(rewriteUnsupportedBrowserMethods);
     
     app.engine('handlebars', handlebarsInstance.engine);
     app.set('view engine', 'handlebars');
-    
-  
-    process.on('uncaughtException', (ex) => {
-      console.log(ex);
-    });
-  
-    process.on('unhandledRejection', (ex) => {
-      console.log(ex);
-    });
   };
   
