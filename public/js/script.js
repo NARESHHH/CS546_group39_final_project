@@ -56,7 +56,7 @@
     });
     function showError(error) {
         const errorElem = $(`#${error.id}`);
-        errorElem.append(`<p>${message}</p>`);
+        errorElem.append(`<p>${error.message}</p>`);
         errorElem.show();
     }
     function init(event) {
