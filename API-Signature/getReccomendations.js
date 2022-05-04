@@ -1,7 +1,15 @@
 const requestBody = {};
 
-const requestQuery = {};
+const requestQuery = 'maxDistance=5';
 
 const responseBody = {
-    data: "User logged in succesfully",
+    data: {
+        img: '',
+        firstName: '',
+        lastName: '',
+        description: '',
+        interests: ['football', 'cricket'],
+        age: 21,
+        gender: 'male',
+    }
 };
