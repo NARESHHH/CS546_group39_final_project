@@ -134,7 +134,7 @@ async function getRecommendations(req, res, next) {
       location: {
         $near: {
           $geometry: user.location,
-          $maxDistance: maxDistance,
+          $maxDistance: maxDistance ,
         },
       },
     };
