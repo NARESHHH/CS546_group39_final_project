@@ -45,11 +45,39 @@
       pattern= "^[a-zA-Z0-9@.!_].{5,20}$"
         title="Please include one uppercase, one  lowercase, one special character, one number and min length of 5 and max length of 20"
     />
+  </label><br />
+
+  <label>Gender:
+   <input type="radio" name="gender" value="male" id="male">
+            <label for="male">Male</label>
+            <input type="radio" name="gender" value="female" id="female">
+            <label for="female">Female</label>
+            <input type="radio" name="gender" value="other" id="other">
+            <label for="female">Other</label>
+  </label><br />
+
+ 
+  <label>Birthday:
+    <input type="date" id="birthday" name="birthday">
+    
+  </label><br />
+
+  <label>Phone:</label>
+    <input type="number" id="phone" name="phone" >
+  </label><br />
+
+ <label>Hobbies: 
+   <textarea id="Hobbies" name="Hobbies" rows="4" cols="30">
+  </textarea> <br /> 
   </label>
 
-  <label>Gender:</label> 
-  <input> </input>
-  <tag> </tag>
+  <label>Location: 
+   <textarea id="Location" name="Location" rows="1" cols="30">
+  </textarea> 
+   </label>
+
+
+
   <br /><br />
   <button type="submit">Submit</button>
 </form>
