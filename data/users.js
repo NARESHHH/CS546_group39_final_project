@@ -3,6 +3,7 @@ const validator = require('../validators/users');
 const ClientError = require('../shared/client-error');
 const ServerError = require('../shared/server-error');
 const bcrypt = require('bcrypt');
+const { preferences } = require('joi');
 const salt = 10;
 
 
@@ -90,8 +91,13 @@ async function signUp(req, res, next) {
         await Users.create({
             firstName: requestBody.firstName,
             lastName: requestBody.lastName,
-            username: username,
-            password: password,
+            username: requestBody.username,
+            password: requestBody.password,
+            phone:requestBody.phone,
+            gender:requestBody.gender,
+            hobbies:requestBody.hobbies,
+            description:requestBody.description,
+            preferences: requestBody.preferences,
         });
 
         return res.send("user created successfully");

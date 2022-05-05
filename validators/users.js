@@ -4,7 +4,7 @@ module.exports = {
     validateUserSignUp,
     validateUserLogin
 }
-
+const RegEx= new RegExp('^[a-zA-Z0-9]{3,10}$')
 /**
  * 
  * @param {*} requestBody 
@@ -13,10 +13,46 @@ module.exports = {
 
  function validateUserSignUp(requestBody) {
      const schema = Joi.object().keys({
-         firstName: Joi.string().min(1).required(),
-         lastName: Joi.string().min(1).required(),
-         username: Joi.string().email().required(),
-         password: Joi.string().required(),
+         firstName: Joi.string()
+                    .alphanum()
+                    .min(1)
+                    .max()
+                    .required(),
+         lastName: Joi.string()
+                    .alphanum()
+                    .min(1)
+                    .max()
+                    .required(),
+         email: Joi.string()
+                    .email({minDomainSegments: 2, tlds:{allow:["edu"]}})
+                    .required(),
+         username: Joi.string()
+                    .email()
+                    .required(),
+         password: Joi.string()
+                    .required(),
+        gender: Joi.string()
+                .required(),
+        dateOfBirth: Joi.date()
+                        .raw()
+                        .required(),
+        UserInfo: Joi.string()
+                .required(),
+        interestsText: Joi.string()
+                .required(),
+        hobbies: Joi.array(Joi.string()).required(),
+        preferences: Joi.object().keys({
+            genders: Joi.array(Joi.string()).required(),
+            age: Joi.object().keys({
+                min: Joi.number().required(),
+                max: Joi.number().required()
+            })
+        })
+
+        
+
+
+
     });
     return schema.validate(requestBody);
   
