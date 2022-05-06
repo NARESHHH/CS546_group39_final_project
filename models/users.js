@@ -1,64 +1,59 @@
-const { date, array, object } = require('joi');
-const mongoose = require('mongoose');
+const { date, array, object } = require("joi");
+const mongoose = require("mongoose");
 
-const schema = new mongoose.Schema({
+const schema = new mongoose.Schema(
+  {
     firstName: {
-        type: String,
-        min: 1,
-        required:true,
+      type: String,
+      min: 1,
+      required: true,
     },
-    lastName:{
-        type: String,
-        min:1,
-        required:true
+    lastName: {
+      type: String,
+      min: 1,
+      required: true,
     },
-    email:{
-        type:String,
-        min:1,
-        required:true
+    username: {
+      type: String,
+      min: 1,
+      required: true,
     },
-    gender:{
-        type:String,
-        min:1,
-        required:true
+    gender: {
+      type: String,
+      min: 1,
+      required: true,
     },
-    phone:{
-        type: String,
-        required:true
+    phone: {
+      type: String,
+      required: true,
     },
-    dateOfBirth:{
-        type:Date,
-        required:true
+    age: {
+      type: Number,
+      required: true,
     },
-    hobbies:{
-        type:Array,
-        required:true
+    interests: {
+      type: String,
+      required: true,
     },
-    description:{
-        type:Array,
-        required:true
+    description: {
+      type: Array,
+      required: true,
     },
-    interestsText:{
-        type:String
-    },
-    preferences:{
-            gender:{
-                type:Array,
-
-            },
-            age:{
-                min:{
-                    type:Number,
-                },
-                max:{
-                    type: Number
-                }
-            }
+    preferences: {
+      gender: {
+        type: Array,
+      },
+      age: {
+        min: {
+          type: Number,
         },
+        max: {
+          type: Number,
+        },
+      },
+    },
+  },
+  { strict: true }
+);
 
-    
-}, {strict: false})
-
-module.exports = mongoose.model('users', schema, 'users');
-
-  
+module.exports = mongoose.model("users", schema, "users");

@@ -3,6 +3,7 @@ const validator = require("../validators/users");
 const ServerError = require("../shared/server-error");
 const bcrypt = require("bcrypt");
 const sendResponse = require("../shared/sendResponse");
+const geoLocation = require("geoip-lite");
 const salt = 10;
 
 module.exports = {
@@ -94,16 +95,23 @@ async function signUp(req, res, next) {
 
     const password = await bcrypt.hash(requestBody.password, salt);
 
-    await Users.create({
+    const coordinates = geoLocation.lookup(req.user.ip);
+
+    const response = await Users.create({
       firstName: requestBody.firstName,
       lastName: requestBody.lastName,
       username: username,
       password: password,
       phone: requestBody.phone,
       gender: requestBody.gender,
-      hobbies: requestBody.hobbies,
+      age: requestBody.age,
+      interests: requestBody.interests,
       description: requestBody.description,
       preferences: requestBody.preferences,
+      location: {
+        type: "Point",
+        coordinates: coordinates.ll,
+      },
     });
 
     return res.send("user created successfully");
@@ -127,14 +135,14 @@ async function getRecommendations(req, res, next) {
     const user = await Users.find({ _id: userId }).lean();
 
     const interestsQuery = {
-      $text: { $search: `\"${user.interestsString}\"` },
+      $text: { $search: `\"${user.interests}\"` },
     };
 
     const locationQuery = {
       location: {
         $near: {
           $geometry: user.location,
-          $maxDistance: maxDistance ,
+          $maxDistance: maxDistance,
         },
       },
     };
@@ -161,6 +169,7 @@ async function getRecommendations(req, res, next) {
     const users = await Users.aggregate([
       { $match: interestsQuery },
       { $match: { _id: { $in: userIds } } },
+      { $sort: { score: { $meta: "textScore" } } },
       {
         $project: {
           _id: 0,
