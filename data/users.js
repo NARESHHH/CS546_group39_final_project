@@ -199,3 +199,4 @@ async function getRecommendations(req, res, next) {
     next(new ServerError(500, error.message));
   }
 }
+
