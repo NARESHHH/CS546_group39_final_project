@@ -1,6 +1,6 @@
 const requestBody = {};
 
-const requestParams = "/id";
+const url = "/:id";
 
 const responseBody = {
   data: {
@@ -8,7 +8,7 @@ const responseBody = {
     firstName: "jhonny",
     lastName: "depp",
     description: "I love playing football",
-    interests: ["football", "cricket"],
+    interests: "football cricket",
     age: 21,
     gender: "male",
   },
