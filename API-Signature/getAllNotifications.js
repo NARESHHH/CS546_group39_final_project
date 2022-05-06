@@ -1,4 +1,4 @@
-const url = "/users/:id/notifications";
+const url = "/notifications";
 
 const responseBody = {
   data: [
