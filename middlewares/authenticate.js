@@ -5,20 +5,15 @@ const ServerError = require("../shared/server-error");
 
 module.exports = async (req, res, next) => {
   try {
-    if (
-      noAuthRoutes[req.originalUrl] &&
-      noAuthRoutes[req.originalUrl].includes(req.method)
-    ) {
+    const path = req.path;
+    if (noAuthRoutes[path] && noAuthRoutes[path].includes(req.method)) {
       const ip = req.headers["x-forwarded-for"] || "148.75.0.38";
       req.user = {
         ip: ip,
       };
       next();
-    } else if (req.originalUrl == "/") return res.redirect("/users/login");
-    else if (
-      userRoutes[req.originalUrl] &&
-      userRoutes[req.originalUrl].includes(req.method)
-    ) {
+    } else if (path == "/") return res.redirect("/users/login");
+    else if (userRoutes[path] && userRoutes[path].includes(req.method)) {
       if (req.session.user) {
         req.user = req.session.user;
         const user = await Users.findOne({ _id: req.user.id });

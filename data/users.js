@@ -48,7 +48,9 @@ async function login(req, res, next) {
     const username = reqBody.username;
     const password = reqBody.password;
 
-    const user = await Users.findOne({ username: username.toLowerCase() });
+    const user = await Users.findOne({
+      username: username.toLowerCase(),
+    });
 
     if (!user) {
       throw new ServerError(
@@ -68,7 +70,7 @@ async function login(req, res, next) {
       id: user.id,
     };
 
-    return res.redirect("/users/getRecommendations");
+    return res.redirect("/users/getRecommendations?maxDistance=1");
   } catch (error) {
     if (error instanceof ServerError) {
       next(error);
@@ -128,14 +130,14 @@ async function getRecommendations(req, res, next) {
     const userId = req.user.id;
     let maxDistance = req.query.maxDistance;
 
-    if (!isNaN(maxDistance)) throw new ServerError(400, "Invalid max distance");
+    if (isNaN(maxDistance)) throw new ServerError(400, "Invalid max distance");
 
     maxDistance = Number(maxDistance);
 
-    const user = await Users.find({ _id: userId }).lean();
+    const user = await Users.findOne({ _id: userId }).lean();
 
     const interestsQuery = {
-      $text: { $search: `\"${user.interests}\"` },
+      $text: { $search: user.interests },
     };
 
     const locationQuery = {
@@ -147,29 +149,31 @@ async function getRecommendations(req, res, next) {
       },
     };
 
-    const invalidIds = [user._id, ...user.acceptedUsers, ...user.rejectedUsers];
+    const acceptedUsers = user.acceptedUsers;
+    const rejectedUsers = user.rejectedUsers;
+
+    const invalidIds = [user._id, ...acceptedUsers, ...rejectedUsers];
 
     const preferencesQuery = {
       _id: { $nin: invalidIds },
       gender: { $in: user.preferences.genders },
       "preferences.genders": user.gender,
-      age: { $gte: user.preferences.minAge, $lte: user.preferences.maxAge },
+      age: { $gte: user.preferences.age.min, $lte: user.preferences.age.max },
     };
 
     let userIds = await Users.find(preferencesQuery).distinct("_id");
 
-    userIds = await Users.aggregate([
-      { $match: locationQuery },
-      { $match: { _id: { $in: userIds } } },
-      { $project: { id: "$_id", _id: 0 } },
-    ]);
+    let luserIds = await Users.find(locationQuery, { _id: 1 }).lean();
 
-    userIds = userIds.map((user) => user.id);
+    luserIds = userIds.map((user) => user._id);
+
+    userIds = await Users.find({
+      _id: { $in: [...userIds, ...luserIds] },
+    }).distinct("_id");
 
     const users = await Users.aggregate([
       { $match: interestsQuery },
       { $match: { _id: { $in: userIds } } },
-      { $sort: { score: { $meta: "textScore" } } },
       {
         $project: {
           _id: 0,
@@ -181,11 +185,13 @@ async function getRecommendations(req, res, next) {
           gender: "$gender",
           description: "$description",
           interests: "$interests",
+          score: { $meta: "textScore" },
         },
       },
+      { $sort: { score: -1 } },
     ]);
 
-    return sendResponse(req, res, next, 200, users);
+    return res.send({ data: users });
   } catch (error) {
     if (error instanceof ServerError) {
       next(error);

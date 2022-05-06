@@ -1,6 +1,12 @@
-const { date, array, object } = require("joi");
 const mongoose = require("mongoose");
 
+const locationSchema = new mongoose.Schema(
+  {
+    type: String,
+    coordinates: Array,
+  },
+  { _id: false }
+);
 const schema = new mongoose.Schema(
   {
     firstName: {
@@ -14,6 +20,11 @@ const schema = new mongoose.Schema(
       required: true,
     },
     username: {
+      type: String,
+      min: 1,
+      required: true,
+    },
+    password: {
       type: String,
       min: 1,
       required: true,
@@ -40,7 +51,7 @@ const schema = new mongoose.Schema(
       required: true,
     },
     preferences: {
-      gender: {
+      genders: {
         type: Array,
       },
       age: {
@@ -52,6 +63,15 @@ const schema = new mongoose.Schema(
         },
       },
     },
+    acceptedUsers: {
+      type: Array,
+      default: [],
+    },
+    rejectedUsers: {
+      type: Array,
+      default: [],
+    },
+    location: locationSchema,
   },
   { strict: true }
 );
