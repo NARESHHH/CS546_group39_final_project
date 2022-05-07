@@ -18,8 +18,8 @@ function validateUserSignUp(requestBody) {
     username: Joi.string()
       .email({ minDomainSegments: 2, tlds: { allow: ["edu"] } })
       .required(),
-    // username: Joi.string().email().required(),
     password: Joi.string().required(),
+    displayPicture: Joi.string().required(),
     gender: Joi.string().required(),
     age: Joi.number().min(16).max(40).required(),
     phone: Joi.string().required(),

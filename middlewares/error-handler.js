@@ -2,14 +2,13 @@ const ClientError = require("../shared/client-error");
 const ServerError = require("../shared/server-error");
 
 module.exports = async (error, req, res, next) => {
-    if (error instanceof ServerError) {
-        const status = error.status;
-        const message = error.message;
-        return res.status(status).send(message);
-    }
-  
-    const status = 500;
+  if (error instanceof ServerError) {
+    const status = error.status;
     const message = error.message;
-    return res.status(status).send(message);
-  };
-  
+    return res.status(status).send({ message: message });
+  }
+
+  const status = 500;
+  const message = error.message;
+  return res.status(status).send({ message: message });
+};
