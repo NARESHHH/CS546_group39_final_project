@@ -2,7 +2,7 @@ const Joi = require("joi");
 
 module.exports = {
   validateUserSignUp,
-  validateUserLogin,
+  validateUserLogin
 };
 const RegEx = new RegExp("^[a-zA-Z0-9]{3,10}$");
 /**

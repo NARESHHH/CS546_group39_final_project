@@ -11,7 +11,7 @@ module.exports = {
   getSignUpPage,
   login,
   signUp,
-  getRecommendations,
+  getRecommendations
 };
 
 async function getLoginPage(req, res, next) {
@@ -200,3 +200,7 @@ async function getRecommendations(req, res, next) {
   }
 }
 
+
+async function getUser(req, res, next){
+  
+}
