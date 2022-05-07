@@ -7,6 +7,6 @@ router.post("/login", users.login);
 router.get("/signup", users.getSignUpPage);
 router.post("/signup", users.signUp);
 router.post("/getRecommendations", users.getRecommendations);
-router.get("/:id", users.getRecommendations);
+router.get("/:id", users.getUser);
 
 module.exports = router;

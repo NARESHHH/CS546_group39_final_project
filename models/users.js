@@ -29,6 +29,10 @@ const schema = new mongoose.Schema(
       min: 1,
       required: true,
     },
+    displayPicture: {
+      type: String,
+      required: true,
+    },
     gender: {
       type: String,
       min: 1,

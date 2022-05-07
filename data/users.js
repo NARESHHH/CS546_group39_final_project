@@ -12,6 +12,7 @@ module.exports = {
   login,
   signUp,
   getRecommendations,
+  getUser,
 };
 
 async function getLoginPage(req, res, next) {
@@ -28,6 +29,22 @@ async function getLoginPage(req, res, next) {
 async function getSignUpPage(req, res, next) {
   try {
     return res.render("users/signup");
+  } catch (error) {
+    if (error instanceof ServerError) {
+      next(error);
+    }
+    next(new ServerError(500, error.message));
+  }
+}
+
+async function getUser(req, res, next) {
+  try {
+    const user = await Users.findOne({ _id: req.params.id }).lean();
+    const img = user.displayPicture;
+    return res.render("users/getUser", {
+      img: img,
+      name: `${user.firstName} ${user.lastName}`,
+    });
   } catch (error) {
     if (error instanceof ServerError) {
       next(error);
@@ -70,7 +87,7 @@ async function login(req, res, next) {
       id: user.id,
     };
 
-    return res.redirect("/users/getRecommendations?maxDistance=1");
+    return res.json({ data: { url: `/users/${user.id}` } });
   } catch (error) {
     if (error instanceof ServerError) {
       next(error);
@@ -104,6 +121,7 @@ async function signUp(req, res, next) {
       lastName: requestBody.lastName,
       username: username,
       password: password,
+      displayPicture: requestBody.displayPicture,
       phone: requestBody.phone,
       gender: requestBody.gender,
       age: requestBody.age,
@@ -116,7 +134,7 @@ async function signUp(req, res, next) {
       },
     });
 
-    return res.send("user created successfully");
+    return res.json({ data: { url: "/users/login" } });
   } catch (error) {
     if (error instanceof ServerError) {
       next(error);
