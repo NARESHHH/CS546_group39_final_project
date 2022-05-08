@@ -25,9 +25,9 @@ module.exports = async (req, res, next) => {
     }
   } catch (error) {
     if (error instanceof ServerError) {
-      throw error;
+      next(error);
     }
-    throw new ServerError(500, "Internal Server Error");
+    next(new ServerError(500, "Internal Server Error"));
   }
 };
 
