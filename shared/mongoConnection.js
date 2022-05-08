@@ -26,11 +26,11 @@ module.exports = function connect() {
     });
   
     mongoose.connection.on('disconnected', () => {
-      logger.error('MongoDB connection disconnected');
+      console.log('MongoDB connection disconnected');
     });
   
     mongoose.connection.on('reconnected', function() {
-      logger.info('mongodb reconnected');
+      console.log('mongodb reconnected');
     });
   };
   

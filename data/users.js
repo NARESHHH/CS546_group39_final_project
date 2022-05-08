@@ -44,6 +44,8 @@ async function getUser(req, res, next) {
     return res.render("users/getUser", {
       img: img,
       name: `${user.firstName} ${user.lastName}`,
+      showHeaderSideFlag: true,
+      recommendationsFlag: true
     });
   } catch (error) {
     if (error instanceof ServerError) {
