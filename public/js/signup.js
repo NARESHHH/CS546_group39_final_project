@@ -62,6 +62,7 @@ function convertToBase64(file) {
     reader.onerror = (error) => reject(error);
   });
 }
+
 async function getUser(event) {
   try {
     event.preventDefault();

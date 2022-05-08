@@ -13,6 +13,7 @@ module.exports = {
   signUp,
   getRecommendations,
   getUser,
+  updatedStatus
 };
 
 async function getLoginPage(req, res, next) {
@@ -142,6 +143,9 @@ async function signUp(req, res, next) {
   }
 }
 
+async function updatedStatus(req,res,next){
+
+}
 async function getRecommendations(req, res, next) {
   try {
     const userId = req.user.id;
