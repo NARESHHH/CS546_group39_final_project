@@ -1,22 +1,19 @@
       
-    {{#each notification}}
+    {{#each data}}
       <div name="notifications" class="col-12 alert alert-secondary row align-items-center ml-0" role="alertdialog">  
         
-        <img class="rounded-circle img-thumbnail" src="{{this.img}}" alt="from user image"  onerror="this.onerror=null; this.src='../../public/js/default_user.png'" style="min-width: 3cm; min-height: 3cm; max-width: 3cm; max-height: 3cm;" >
+        <img class="rounded-circle img-thumbnail" src="{{this.image}}" alt="from user image"  onerror="this.onerror=null; this.src='../../public/js/default_user.png'" style="min-width: 3cm; min-height: 3cm; max-width: 3cm; max-height: 3cm;" >
     
         <div class="col">
             <a href="#">
               <span class="fs-3 ml-3">{{this.name}}</span>
             </a>
-            
-            {{#if this.message}}
-                <p class="col-12 fs-5">{{this.message}}</p>
+            <p class="col-12 fs-5">{{this.message}}</p>
+            {{#if this.isMessage}}
                 <div>
                     <button id="messageButton" type="button" class="col-2 btn btn-success align-self-end ml-3 mr-3">Message</button>
                     <button id="blockButton" type="button" class="col-2 btn btn-danger align-self-end ml-3 mr-3">Block</button>
                 </div>
-            {{#else}}
-                <button id="messageButton" type="button" class="col-2 btn btn-success align-self-end ml-3 mr-3">Click here to see their full profile</button>
             {{/if}}
         </div>
       </div>
