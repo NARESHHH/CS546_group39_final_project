@@ -16,9 +16,7 @@ module.exports = {
   getNotifications,
 };
 
-const getNotifications = async(req,res,next){
-  
-}
+
 async function getLoginPage(req, res, next) {
   try {
     return res.render("users/login");
