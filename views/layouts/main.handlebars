@@ -41,31 +41,31 @@
       <hr>
       <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
-            <a href="#" {{#if recommendationsFlag}} class="nav-link active" {{else}} class="nav-link text-white" {{/if}} aria-current="page">
+            <a href="/users/getRecommendations" {{#if recommendationsFlag}} class="nav-link active" {{else}} class="nav-link text-white" {{/if}} aria-current="page">
             <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
             Home
             </a>
         </li>
         <li>
-            <a href="#" {{#if profileFlag}} class="nav-link active" {{else}} class="nav-link text-white" {{/if}} >
+            <a href="/users/{{id}}" {{#if profileFlag}} class="nav-link active" {{else}} class="nav-link text-white" {{/if}} >
             <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
             My Profile
             </a>
         </li>
-        <li>
+        {{!-- <li>
             <a href="#" {{#if settingsFlag}} class="nav-link active" {{else}} class="nav-link text-white" {{/if}} >
             <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
             Settings
             </a>
-        </li>
+        </li> --}}
         <li>
-            <a href="#" {{#if notificationsFlag}} class="nav-link active" {{else}} class="nav-link text-white" {{/if}} >
+            <a href="/notifications" {{#if notificationsFlag}} class="nav-link active" {{else}} class="nav-link text-white" {{/if}} >
             <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
             Notifications<span class="badge fs-6s">{{numNotifications}}</span>
             </a>
         </li>
         <li>
-            <a href="#" {{#if matchesFlag}} class="nav-link active" {{else}} class="nav-link text-white" {{/if}} >
+            <a href="/users/getMatchedUsers" {{#if matchesFlag}} class="nav-link active" {{else}} class="nav-link text-white" {{/if}} >
             <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
             My matches
             </a>

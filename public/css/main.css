@@ -81,10 +81,11 @@ p {
   color: black;
   background-color: #fee36e;
 }
-a:hover {
+
+/* a:hover {
    color: white
 }
 
 a:active {
   color: black
-}
+} */
