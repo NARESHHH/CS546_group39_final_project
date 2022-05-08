@@ -4,17 +4,15 @@ const responseBody = {
   data: [
     {
       fromUser: "Vivek",
-      image: "",
-      status: "read",
-      type: "chat",
-      message: ""
+      fromUserdId: "#",
+      image: "#",
+      message: "#"//fill with value if message type notification
     },
     {
       fromUser: "naresh",
-      image: "",
-      status: "unread",
-      type: "match",
-      message: ""
+      fromUserdId: "#",
+      image: "#",
+      message: ""//empty if accepted user type
     },
   ],
   unreadCount: 1,
