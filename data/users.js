@@ -101,7 +101,7 @@ async function signUp(req, res, next) {
     const requestBody = req.body;
 
     const { error } = validator.validateUserSignUp(requestBody);
-    if (error) { 
+    if (error) {
       throw new ServerError(400, error.message);
     }
 
@@ -206,9 +206,21 @@ async function getRecommendations(req, res, next) {
         },
       },
       { $sort: { score: -1 } },
+      { $limit: 1 },
     ]);
 
-    return res.send({ data: users });
+    let resUser;
+    if (users.length > 0) {
+      resUser = users[0];
+    }
+    const response = {
+      data: resUser ? resUser : null,
+      count: resUser ? 1 : 0,
+      isAccepted: false,
+      isRejected: false,
+      isMatched: false,
+    };
+    return res.render("users/getUser", response);
   } catch (error) {
     if (error instanceof ServerError) {
       next(error);
