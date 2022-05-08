@@ -4,15 +4,18 @@ const responseBody = {
   data: [
     {
       fromUser: "Vivek",
+      image: "",
       status: "read",
       type: "chat",
+      message: ""
     },
     {
       fromUser: "naresh",
+      image: "",
       status: "unread",
       type: "match",
+      message: ""
     },
   ],
-  total: 2,
   unreadCount: 1,
 };
