@@ -101,7 +101,7 @@ async function signUp(req, res, next) {
     const requestBody = req.body;
 
     const { error } = validator.validateUserSignUp(requestBody);
-    if (error) {
+    if (error) { 
       throw new ServerError(400, error.message);
     }
 
