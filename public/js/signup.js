@@ -12,7 +12,6 @@ async function signUpUI(event) {
       'input[name="gender"]:checked'
     ).value;
     const signUpAge = document.getElementById("age").value;
-    const signUpPhone = document.getElementById("phone").value;
     const signUpDescription = document.getElementById("description").value;
     const signUpInterests = document.getElementById("interests").value;
     let signUpGenders = document.getElementById("genders").value;
@@ -28,7 +27,6 @@ async function signUpUI(event) {
       displayPicture: img,
       gender: signUpGender,
       age: signUpAge,
-      phone: signUpPhone,
       description: signUpDescription,
       interests: signUpInterests,
       preferences: {
@@ -50,7 +48,7 @@ async function signUpUI(event) {
       body: data,
     });
     response = await response.json();
-    window.location.href = `/users/${response.id}`;
+    window.location.href = `/users/login`;
   } catch (error) {
     console.log(error);
   }

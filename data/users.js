@@ -122,7 +122,6 @@ async function signUp(req, res, next) {
       username: username,
       password: password,
       displayPicture: requestBody.displayPicture,
-      phone: requestBody.phone,
       gender: requestBody.gender,
       age: requestBody.age,
       interests: requestBody.interests,

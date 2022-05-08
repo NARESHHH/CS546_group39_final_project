@@ -22,7 +22,6 @@ function validateUserSignUp(requestBody) {
     displayPicture: Joi.string().required(),
     gender: Joi.string().required(),
     age: Joi.number().min(16).max(40).required(),
-    phone: Joi.string().required(),
     description: Joi.string().required(),
     interests: Joi.string().required(),
     preferences: Joi.object().keys({
