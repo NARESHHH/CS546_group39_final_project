@@ -216,8 +216,3 @@ async function getRecommendations(req, res, next) {
     next(new ServerError(500, error.message));
   }
 }
-
-
-async function getUser(req, res, next){
-  
-}
