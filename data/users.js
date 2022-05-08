@@ -220,7 +220,7 @@ async function getRecommendations(req, res, next) {
       isRejected: false,
       isMatched: false,
     };
-    return res.render("users/getUser", response);
+    return res.send(response);
   } catch (error) {
     if (error instanceof ServerError) {
       next(error);
