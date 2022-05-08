@@ -38,10 +38,6 @@ const schema = new mongoose.Schema(
       min: 1,
       required: true,
     },
-    phone: {
-      type: String,
-      required: true,
-    },
     age: {
       type: Number,
       required: true,
