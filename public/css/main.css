@@ -28,19 +28,19 @@ h6 {
 }
 
 h1 {
-  font-size: 2rem;
-}
-
-h2 {
-  font-size: 1.75rem;
-}
-
-h3 {
   font-size: 1.5rem;
 }
 
-h4 {
+h2 {
   font-size: 1.25rem;
+}
+
+h3 {
+  font-size: 1rem;
+}
+
+h4 {
+  font-size: 0.5rem;
 }
 
 h5 {
@@ -54,6 +54,9 @@ h6 {
 p {
   font-size: 1rem;
   line-height: 2;
+  color:rgb(36, 3, 3);
+  
+  
 }
 
 .post {
@@ -85,14 +88,14 @@ p {
 .gradient-custom-2 {
   /* fallback for old browsers */
   background: #fccb90;
-  
+
   /* Chrome 10-25, Safari 5.1-6 */
   background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
-  
+
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
   }
-  
+
   @media (min-width: 768px) {
   .gradient-form {
   height: 100vh !important;
@@ -102,30 +105,30 @@ p {
   .gradient-custom-2 {
   border-top-right-radius: .3rem;
   border-bottom-right-radius: .3rem;
-  }
-  }
+  } 
+}
   
 
-  .gradient-custom {
-    /* fallback for old browsers */
-    background: #f093fb;
-    
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1));
-    
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1))
-    }
-    
-    .card-registration .select-input.form-control[readonly]:not([disabled]) {
-    font-size: 1rem;
-    line-height: 2.15;
-    padding-left: .75em;
-    padding-right: .75em;
-    }
-    .card-registration .select-arrow {
-    top: 13px;
-    }
+.gradient-custom {
+  /* fallback for old browsers */
+  background: #f093fb;
+  
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1));
+  
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1))
+  }
+  
+  .card-registration .select-input.form-control[readonly]:not([disabled]) {
+  font-size: 1rem;
+  line-height: 2.15;
+  padding-left: .75em;
+  padding-right: .75em;
+  }
+  .card-registration .select-arrow {
+  top: 13px;
+}
 
 .bgcolor{
   background-color: #b44593;
@@ -136,6 +139,7 @@ p {
   cursor: pointer;
   text-align: center;
 }
+
 .picture{
   width: 106px;
   height: 106px;
@@ -185,3 +189,57 @@ p {
   width: 50%;
 }
 /*Profile Pic End*/
+
+/*the container must be positioned relative:*/
+.autocomplete {
+  position: relative;
+  display: inline-block;
+}
+
+input {
+  border: 1px solid transparent;
+  background-color: #f1f1f1;
+  padding: 10px;
+  font-size: 16px;
+}
+
+input[type=text] {
+  background-color: #f1f1f1;
+  width: 100%;
+}
+
+input[type=submit] {
+  background-color: DodgerBlue;
+  color: #fff;
+  cursor: pointer;
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff; 
+  border-bottom: 1px solid #d4d4d4; 
+}
+
+/*when hovering an item:*/
+.autocomplete-items div:hover {
+  background-color: #e9e9e9; 
+}
+
+/*when navigating through the items using the arrow keys:*/
+.autocomplete-active {
+  background-color: DodgerBlue !important; 
+  color: #ffffff; 
+}

@@ -14,8 +14,8 @@ const RegEx = new RegExp("^[a-zA-Z0-9]{3,10}$");
 
 function validateUserSignUp(requestBody) {
   const schema = Joi.object().keys({
-    firstName: Joi.string().alphanum().min(1).max(100).required(),
-    lastName: Joi.string().alphanum().min(1).max(100).required(),
+    firstName: Joi.string().alphanum().min(1).max(20).required(),
+    lastName: Joi.string().alphanum().min(1).max(20).required(),
     username: Joi.string()
       .email({ minDomainSegments: 2, tlds: { allow: ["edu"] } })
       .required(),
@@ -23,13 +23,13 @@ function validateUserSignUp(requestBody) {
     displayPicture: Joi.string().required(),
     gender: Joi.string().required(),
     age: Joi.number().min(16).max(40).required(),
-    description: Joi.string().required(),
+    description: Joi.string().max(120),
     interests: Joi.string().required(),
     preferences: Joi.object().keys({
       genders: Joi.array().required(),
       age: Joi.object().keys({
-        min: Joi.number().required(),
-        max: Joi.number().required(),
+        min: Joi.number().min(16).max(80).required(),
+        max: Joi.number().min(16).max(80).required(),
       }),
     }),
   });

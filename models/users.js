@@ -19,6 +19,19 @@ const schema = new mongoose.Schema(
       min: 1,
       required: true,
     },
+    name: {
+      type: String,
+      min: 1,
+      required: true,
+    },
+    isReported: {
+      type: Boolean,
+      default: false,
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
     username: {
       type: String,
       min: 1,

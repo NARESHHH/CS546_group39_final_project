@@ -1,4 +1,5 @@
 const Users = require("../models/users");
+const Notifications = require("../models/notifications");
 const validator = require("../validators/users");
 const ServerError = require("../shared/server-error");
 const bcrypt = require("bcrypt");
@@ -16,11 +17,34 @@ module.exports = {
   editUser,
   updatedStatus,
   getCurrentUser,
+  logout,
+  getUsers,
 };
 
-async function getCurrentUser(req,res,next){
+async function getCurrentUser(req, res, next) {}
 
+async function getUsers(req, res, next) {
+  const searchTerm = req.query.searchTerm;
+
+  const users = await Users.aggregate([
+    {
+      $match: {
+        name: new RegExp(`.*${searchTerm}.*`, "i"),
+      },
+    },
+    {
+      $project: {
+        id: "$_id",
+        _id: 0,
+        displayPicture: "$displayPicture",
+        name: "$name",
+      },
+    },
+  ]);
+
+  return res.render("users/getUsers", { data: users });
 }
+
 async function getLoginPage(req, res, next) {
   try {
     return res.render("users/login");
@@ -60,27 +84,23 @@ async function getUser(req, res, next) {
     if (
       currentUser.acceptedUsers.includes(userId) &&
       user.acceptedUsers.includes(currentUserId)
-    ){
+    ) {
       isMatched = true;
-      isRejected=true;
-    }
-    else if (
+      isRejected = true;
+    } else if (
       currentUser.acceptedUsers.includes(userId) &&
       !user.acceptedUsers.includes(currentUserId)
-    ){
-      
+    ) {
       isRejected = true;
-    
-    }
-      
-    else if (currentUser.rejectedUsers.includes(userId)) isAccepted = true;
-
-    else{
+    } else if (currentUser.rejectedUsers.includes(userId)) isAccepted = true;
+    else {
       isAccepted = true;
       isRejected = true;
     }
 
     return res.render("users/userProfile", {
+      showHeaderSideFlag: true,
+      recommendationsFlag: true,
       id: user._id,
       displayPicture: user.displayPicture,
       firstName: user.firstName,
@@ -94,7 +114,7 @@ async function getUser(req, res, next) {
       isRejected: isRejected,
       isMatched: isMatched,
       isSameUser: isSameUser,
-      showHeaderSideFlag:true
+      showHeaderSideFlag: true,
     });
   } catch (error) {
     if (error instanceof ServerError) {
@@ -133,6 +153,7 @@ async function editUser(req, res, next) {
         $set: {
           firstName: requestBody.firstName,
           lastName: requestBody.lastName,
+          name: `${requestBody.firstName} ${requestBody.lastName}`,
           username: user.username,
           password: password ? password : user.password,
           displayPicture: requestBody.displayPicture,
@@ -192,8 +213,18 @@ async function login(req, res, next) {
       id: user.id,
     };
 
-    return res.json({data: {url: '/users/getRecommendations'}});
+    return res.json({ data: { url: "/users/getRecommendations" } });
+  } catch (error) {
+    if (error instanceof ServerError) {
+      next(error);
+    }
+    next(new ServerError(500, error.message));
+  }
+}
 
+async function logout(req, res, next) {
+  try {
+    req.session.destroy();
   } catch (error) {
     if (error instanceof ServerError) {
       next(error);
@@ -225,6 +256,7 @@ async function signUp(req, res, next) {
     const response = await Users.create({
       firstName: requestBody.firstName,
       lastName: requestBody.lastName,
+      name: `${requestBody.firstName} ${requestBody.lastName}`,
       username: username,
       password: password,
       displayPicture: requestBody.displayPicture,
@@ -248,7 +280,100 @@ async function signUp(req, res, next) {
   }
 }
 
-async function updatedStatus(req, res, next) {}
+async function updatedStatus(req, res, next) {
+  try {
+    const userId = req.params.id;
+    const currentUserId = req.session.id;
+    const status = req.query.status;
+    let page = req.query.page;
+    const message = req.query.message;
+
+    const currentUser = await Users.findOne({ _id: currentUserId });
+    const user = await Users.findOne({ _id: userId });
+    const admin = await Users.findOne({ isAdmin: true });
+
+    const isMatched =
+      currentUser.acceptedUsers.includes(userId) &&
+      user.acceptedUsers.includes(currentUserId)
+        ? true
+        : false;
+
+    switch (status) {
+      case "accept":
+        await Users.updateOne(
+          { _id: currentUserId },
+          { $push: { acceptedUsers: userId }, $pull: { rejectedUsers: userId } }
+        );
+        await Notifications.create({
+          userId: userId,
+          fromUser: currentUserId,
+          message: `You've been accepted by ${currentUser.firstName} ${currentUser.lastName}`,
+        });
+      case "reject":
+        await Users.updateOne(
+          { _id: currentUserId },
+          { $pull: { acceptedUsers: userId }, $push: { rejectedUsers: userId } }
+        );
+      case "report":
+        await Notifications.create({
+          userId: admin.id,
+          fromUser: userId,
+          message: message,
+        });
+      case "message":
+        if (!isMatched) throw new ServerError(400, "Can't message");
+        await Notifications.create({
+          userId: userId,
+          fromUser: currentUser,
+          message: message,
+        });
+      case "unmatch":
+        await Users.updateOne(
+          { _id: currentUserId },
+          { $pull: { acceptedUsers: userId } }
+        );
+      case "block":
+        if (!currentUser.isAdmin)
+          throw new ServerError(
+            400,
+            "Users other than admin cannot block users"
+          );
+        await Users.updateOne({ _id: userId }, { $set: { isReported: true } });
+        await Notifications.deleteOne({ fromUser: userId });
+      case "ignore":
+        if (!currentUser.isAdmin)
+          throw new ServerError(
+            400,
+            "Users other than admin cannot ignore users"
+          );
+        await Notifications.deleteMany({ fromUser: userId });
+        break;
+      default:
+        break;
+    }
+    switch (page) {
+      case "getUser":
+        page = `users/${userId}`;
+
+      case "getRecommendations":
+        page = "users/getRecommendations";
+
+      case "notifications":
+        page = "notifications";
+
+        break;
+
+      default:
+        break;
+    }
+    return res.redirect(page);
+  } catch (error) {
+    if (error instanceof ServerError) {
+      next(error);
+    }
+    next(new ServerError(500, error.message));
+  }
+}
 
 async function getRecommendations(req, res, next) {
   try {
@@ -329,7 +454,10 @@ async function getRecommendations(req, res, next) {
       isMatched: false,
       isSameUser: false,
     };
-    return res.render('users/getRecommendations',{response,showHeaderSideFlag:true});
+    return res.render("users/getRecommendations", {
+      response,
+      showHeaderSideFlag: true,
+    });
   } catch (error) {
     if (error instanceof ServerError) {
       next(error);
