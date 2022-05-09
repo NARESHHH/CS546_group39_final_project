@@ -16,8 +16,8 @@ module.exports = {
   getUser,
   editUser,
   updatedStatus,
-  logout,
   getCurrentUser,
+  logout,
 };
 
 async function getCurrentUser(req,res,next){
