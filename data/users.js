@@ -23,6 +23,7 @@ module.exports = {
 
 async function getCurrentUser(req, res, next) {
     const userId = req.user.id;
+    
     const user = await Users.findOne({ _id: userId }).lean();
   
     res.json({data: user});
