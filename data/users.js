@@ -490,8 +490,8 @@ async function getRecommendations(req, res, next) {
       response,
       showHeaderSideFlag: true,
       recommendationsFlag: true,
-      img: req.session.img,
-      name: req.session.name, 
+      img: req.session.user.img,
+      name: req.session.user.name, 
     });
   } catch (error) {
     if (error instanceof ServerError) {
