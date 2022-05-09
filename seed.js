@@ -1,12 +1,25 @@
 db = db.getSiblingDB("CS_546_G39");
+db.dropDatabase();
 
 // Creating Indexes
 db.users.createIndex({ location: "2dsphere" });
 db.users.createIndex({ interests: "text" });
+const id = ObjectId("6278b24d42aabe7bfd7a27f6");
+const id1 = ObjectId("6278b24d42aabe7bfd7a27f7");
+const id2 = ObjectId("6278b24d42aabe7bfd7a27f8");
+const id3 = ObjectId("6278b24d42aabe7bfd7a27f9");
+const id4 = ObjectId("6278b24d42aabe7bfd7a27fa");
+const id5 = ObjectId("6278b24d42aabe7bfd7a27fb");
+const id6 = ObjectId("6278b24d42aabe7bfd7a27fc");
+const id7 = ObjectId("6278b24d42aabe7bfd7a27f6d");
+const id8 = ObjectId("6278b24d42aabe7bfd7a27fe");
+const id9 = ObjectId("6278b24d42aabe7bfd7a27ff");
+const id10 = ObjectId("6278b24d42aabe7bfd7a27fg");
+const id11 = ObjectId("6278b24d42aabe7bfd7a27fh");
 
 db.users.insertMany([
   {
-    _id: { $oid: "627733342037384335fa3cd5" },
+    _id: id,
     firstName: "Akansha",
     lastName: "Goud",
     username: "agoud@stevens.edu",
@@ -25,7 +38,7 @@ db.users.insertMany([
   },
 
   {
-    _id: { $oid: "627734eb2037384335fa3cd8" },
+    _id: id1,
     firstName: "Bhavana",
     lastName: "Reddy",
     username: "bhavanar@stevens.edu",
@@ -44,7 +57,7 @@ db.users.insertMany([
   },
 
   {
-    _id: { $oid: "627736592037384335fa3cdb" },
+    _id: id2,
     firstName: "Carolina",
     lastName: "steve",
     username: "carolina@stevens.edu",
@@ -63,7 +76,7 @@ db.users.insertMany([
   },
 
   {
-    _id: { $oid: "6277377d2037384335fa3cde" },
+    _id: id3,
     firstName: "Elena",
     lastName: "Salvatore",
     username: "elena@stevens.edu",
@@ -82,7 +95,7 @@ db.users.insertMany([
   },
 
   {
-    _id: { $oid: "627738722037384335fa3ce1" },
+    _id: id4,
     firstName: "Akhila",
     lastName: "Prabhu",
     username: "akhila@stevens.edu",
@@ -103,7 +116,7 @@ db.users.insertMany([
   },
 
   {
-    _id: { $oid: "6277398c2037384335fa3ce4" },
+    _id: id5,
     firstName: "Isabelle",
     lastName: "Chris",
     username: "isabelle@stevens.edu",
@@ -120,9 +133,8 @@ db.users.insertMany([
     location: { type: "Point", coordinates: [40.7924, -74.0096] },
     __v: 0,
   },
-
   {
-    _id: { $oid: "62773aad2037384335fa3ce7" },
+    _id: id6,
     firstName: "Natalie",
     lastName: "Bernard",
     username: "natalie@stevens.edu",
@@ -141,7 +153,7 @@ db.users.insertMany([
   },
 
   {
-    _id: { $oid: "62773b9b2037384335fa3cea" },
+    _id: id7,
     firstName: "Ema",
     lastName: "Geller",
     username: "ema@stevens.edu",
@@ -160,7 +172,7 @@ db.users.insertMany([
   },
 
   {
-    _id: { $oid: "62773c762037384335fa3ced" },
+    _id: id8,
     firstName: "Rachel",
     lastName: "Green",
     username: "rachel@stevens.edu",
@@ -179,7 +191,7 @@ db.users.insertMany([
   },
 
   {
-    _id: { $oid: "62773d8f2037384335fa3cf0" },
+    _id: id9,
     firstName: "Phoebe",
     lastName: "Buffay",
     username: "phoebe@stevens.edu",
@@ -198,7 +210,7 @@ db.users.insertMany([
   },
 
   {
-    _id: { $oid: "62773fd82037384335fa3cf3" },
+    _id: id10,
     firstName: "Stefan",
     lastName: "Salva",
     username: "stefan@stevens.edu",
@@ -217,7 +229,7 @@ db.users.insertMany([
   },
 
   {
-    _id: { $oid: "627741732037384335fa3cf6" },
+    _id: id10,
     firstName: "Damon",
     lastName: "Salvator",
     username: "damon@stevens.edu",
@@ -233,5 +245,21 @@ db.users.insertMany([
     rejectedUsers: [],
     location: { type: "Point", coordinates: [40.7924, -74.0096] },
     __v: 0,
+  },
+]);
+
+db.notifications.insertMany([
+  {
+    toUserId: "6278b24d42aabe7bfd7a27f7",
+    fromUserId: "6278b24d42aabe7bfd7a27fa",
+    message:
+      "You've been accepted by Akansha Goud , Please click on their Profile to check them out!",
+  },
+
+  {
+    toUserId: "6278b24d42aabe7bfd7a27f8",
+    fromUserId: "6278b24d42aabe7bfd7a27fb",
+    message:
+      "You've been accepted by Isabelle Chris , Please click on their Profile to check them out!",
   },
 ]);
