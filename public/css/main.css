@@ -108,6 +108,18 @@ p {
   } 
 }
   
+ul li:active {
+  padding-left: 50px;
+}
+
+ul li:focus {
+  background-color: white;
+}
+.sidebar ul a i{
+  margin-left: 16px;
+}
+
+  
 
 .gradient-custom {
   /* fallback for old browsers */

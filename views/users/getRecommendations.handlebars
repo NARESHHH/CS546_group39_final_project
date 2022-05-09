@@ -1,9 +1,8 @@
-
-  
 <section class="h-100 gradient-custom-2">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col col-lg-9 col-xl-7">
+      {{#if response.data}}
         <div class="card">
           <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
             <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
@@ -14,7 +13,8 @@
 
             </div>
             <div class="ms-3 text-black" style="margin-top: 130px; color:#f8f9fa">
-              <h5>{{response.data.firstName}} {{response.data.lastName}}</h5>
+              
+              <h5><span style="color:white">{{response.data.firstName}} {{response.data.lastName}}</h5></span>
               
 
             </div>
@@ -63,6 +63,22 @@
             
           </div>
         </div>
+      {{else }}
+        <div class="card">
+          
+        <div class="mb-5">
+              <p class="lead fw-normal mb-1">Details</p>
+              <div class="p-4" style="background-color: #f8f9fa;">
+                <p>End of Reccomendations. Please update User Preferences </p>
+              </div>
+        </div>
+
+        </div>
+
+      {{/if}}
+
+
+        
       </div>
     </div>
   </div>

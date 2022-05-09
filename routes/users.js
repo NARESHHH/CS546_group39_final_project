@@ -12,5 +12,6 @@ router.get("/getRecommendations", users.getRecommendations);
 router.get("/:id/updateStatus", users.updatedStatus);
 router.get("/:id", users.getUser);
 router.get("/logout", users.logout);
+router.get("/getCurrentUser",users.getCurrentUser);
 
 module.exports = router;

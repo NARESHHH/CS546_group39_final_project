@@ -21,7 +21,12 @@ module.exports = {
   getUsers,
 };
 
-async function getCurrentUser(req, res, next) {}
+async function getCurrentUser(req, res, next) {
+    const userId = req.user.id;
+    const user = await Users.findOne({ _id: userId }).lean();
+  
+    res.json({data: user});
+}
 
 async function getUsers(req, res, next) {
   const searchTerm = req.query.searchTerm;
@@ -457,6 +462,7 @@ async function getRecommendations(req, res, next) {
     return res.render("users/getRecommendations", {
       response,
       showHeaderSideFlag: true,
+      recommendationFlag: true
     });
   } catch (error) {
     if (error instanceof ServerError) {
