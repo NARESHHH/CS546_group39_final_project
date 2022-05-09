@@ -1,4 +1,4 @@
-      
+   {{#if response.data}}   
     {{#each data}}
       <div name="notifications" class="col-12 alert alert-secondary row align-items-center ml-0" role="alertdialog">  
         
@@ -12,3 +12,6 @@
         </div>
       </div>
     {{/each}}
+  {{else}}
+    <p class="d-flex ">No notifications yet!</p>
+  {{/if}}
