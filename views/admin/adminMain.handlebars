@@ -22,8 +22,8 @@
             </a>
             <p class="col-12 fs-5">{{this.message}}</p>
             <div>
-                <a href="/admin/blockUser/{{this.fromUserId}}" name="blockButton" class="col-2 btn btn-danger align-self-end ml-3 mr-3">Block</a>
-                <a href="/admin/ignore/{{this.fromUserId}}" name="messageButton" class="col-2 btn btn-primary align-self-end ml-3 mr-3">Ignore</a>
+                <a href="/users/{{this.fromUserId}}/updateStatus?status=block&page=notifications" name="blockButton" class="col-2 btn btn-danger align-self-end ml-3 mr-3">Block</a>
+                <a href="/users/{{this.fromUserId}}/updateStatus?status=ignore&page=notifications" name="messageButton" class="col-2 btn btn-primary align-self-end ml-3 mr-3">Ignore</a>
             </div>
         </div>
       </div>

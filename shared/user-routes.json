@@ -1,5 +1,6 @@
 {
     "/users/getRecommendations": ["GET"],
     "/users/:id": ["GET"],
-    "/notifications": ["GET"]
+    "/notifications": ["GET"],
+    "/users/logout": ["GET"]
 }

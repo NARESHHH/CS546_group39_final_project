@@ -15,6 +15,7 @@ module.exports = {
   getUser,
   editUser,
   updatedStatus,
+  logout,
 };
 
 async function getLoginPage(req, res, next) {
@@ -177,6 +178,17 @@ async function login(req, res, next) {
 
     return res.json({data: {url: '/users/getRecommendations'}});
 
+  } catch (error) {
+    if (error instanceof ServerError) {
+      next(error);
+    }
+    next(new ServerError(500, error.message));
+  }
+}
+
+async function logout(req, res, next){
+  try {
+    req.session.destroy();
   } catch (error) {
     if (error instanceof ServerError) {
       next(error);

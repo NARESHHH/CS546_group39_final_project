@@ -1,7 +1,14 @@
-<h1>{{title}}</h1>
-<br />
 
-<br />
-<div id="server-error" class="error"></div>
-<div id="login-error" class="error"></div>
-<a href="/users/signup">Need to register? Click here to sign-up</a>
+    {{#each data}}
+      <div name="notifications" class="col-12 alert alert-secondary row align-items-center ml-0" role="alertdialog">  
+        
+        <img class="rounded-circle img-thumbnail" src={{this.displayPicture}} alt="from user image"  onerror="this.onerror=null; this.src='../../public/js/default_user.png'" style="min-width: 3cm; min-height: 3cm; max-width: 3cm; max-height: 3cm;" >
+    
+        <div class="col">
+            <a href="users/{{this.fromUserId}}">
+              <span class="fs-3 ml-3">{{this.fromUser}}</span>
+            </a>
+            <p class="col-12 fs-5">{{this.message}}</p>
+        </div>
+      </div>
+    {{/each}}
