@@ -22,11 +22,11 @@ module.exports = {
 };
 
 async function getCurrentUser(req, res, next) {
-    const userId = req.user.id;
-    
-    const user = await Users.findOne({ _id: userId }).lean();
-  
-    res.json({data: user});
+  const userId = req.user.id;
+
+  const user = await Users.findOne({ _id: userId }).lean();
+
+  res.json({ data: user });
 }
 
 async function getUsers(req, res, next) {
@@ -312,9 +312,9 @@ async function updatedStatus(req, res, next) {
           { $push: { acceptedUsers: userId }, $pull: { rejectedUsers: userId } }
         );
         await Notifications.create({
-          userId: userId,
-          fromUser: currentUserId,
-          message: `You've been accepted by ${currentUser.firstName} ${currentUser.lastName}`,
+          toUserId: userId,
+          fromUserId: currentUserId,
+          message: `You've been accepted by ${currentUser.firstName} ${currentUser.lastName}, Please click on their Profile to check them out!`,
         });
       case "reject":
         await Users.updateOne(
@@ -323,15 +323,15 @@ async function updatedStatus(req, res, next) {
         );
       case "report":
         await Notifications.create({
-          userId: admin.id,
-          fromUser: userId,
+          toUserId: admin.id,
+          fromUserId: userId,
           message: message,
         });
       case "message":
         if (!isMatched) throw new ServerError(400, "Can't message");
         await Notifications.create({
-          userId: userId,
-          fromUser: currentUser,
+          toUserId: userId,
+          fromUserId: currentUser,
           message: message,
         });
       case "unmatch":
@@ -346,14 +346,14 @@ async function updatedStatus(req, res, next) {
             "Users other than admin cannot block users"
           );
         await Users.updateOne({ _id: userId }, { $set: { isReported: true } });
-        await Notifications.deleteOne({ fromUser: userId });
+        await Notifications.deleteOne({ fromUserId: userId });
       case "ignore":
         if (!currentUser.isAdmin)
           throw new ServerError(
             400,
             "Users other than admin cannot ignore users"
           );
-        await Notifications.deleteMany({ fromUser: userId });
+        await Notifications.deleteOne({ fromUserId: userId });
         break;
       default:
         break;
@@ -464,7 +464,7 @@ async function getRecommendations(req, res, next) {
     return res.render("users/getRecommendations", {
       response,
       showHeaderSideFlag: true,
-      recommendationFlag: true
+      recommendationFlag: true,
     });
   } catch (error) {
     if (error instanceof ServerError) {
