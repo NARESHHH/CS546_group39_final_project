@@ -176,8 +176,7 @@ async function login(req, res, next) {
       id: user.id,
     };
 
-    return res.json({data: {url: '/users/getRecommendations'}});
-
+    return res.json({ data: { url: "/users/getRecommendations" } });
   } catch (error) {
     if (error instanceof ServerError) {
       next(error);
@@ -186,7 +185,7 @@ async function login(req, res, next) {
   }
 }
 
-async function logout(req, res, next){
+async function logout(req, res, next) {
   try {
     req.session.destroy();
   } catch (error) {
@@ -243,7 +242,35 @@ async function signUp(req, res, next) {
   }
 }
 
-async function updatedStatus(req, res, next) {}
+async function updatedStatus(req, res, next) {
+  const userId = req.params.id;
+  const currentUser = req.session.id;
+  const status = req.query.status;
+  const page = req.query.page;
+
+  switch (status) {
+    case "accept":
+      await Users.updateOne(
+        { _id: currentUser },
+        { $push: { acceptedUsers: userId }, $pull: { rejectedUsers: userId } }
+      );
+    case "reject":
+      await Users.updateOne(
+        { _id: currentUser },
+        { $pull: { acceptedUsers: userId }, $push: { rejectedUsers: userId } }
+      );
+    case "unmatch":
+      await Users.updateOne(
+        { _id: currentUser },
+        { $pull: { acceptedUsers: userId }, $push: { rejectedUsers: userId } }
+      );
+
+      break;
+
+    default:
+      break;
+  }
+}
 
 async function getRecommendations(req, res, next) {
   try {
@@ -324,7 +351,10 @@ async function getRecommendations(req, res, next) {
       isMatched: false,
       isSameUser: false,
     };
-    return res.render('users/getRecommendations',{response,showHeaderSideFlag:true});
+    return res.render("users/getRecommendations", {
+      response,
+      showHeaderSideFlag: true,
+    });
   } catch (error) {
     if (error instanceof ServerError) {
       next(error);
