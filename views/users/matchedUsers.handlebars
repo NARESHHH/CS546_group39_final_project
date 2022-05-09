@@ -2,13 +2,24 @@
     {{#each data}}
       <div name="notifications" class="col-12 alert alert-secondary row align-items-center ml-0" role="alertdialog">  
         
-        <img class="rounded-circle img-thumbnail" src={{this.displayPicture}} alt="from user image"  onerror="this.onerror=null; this.src='../../public/js/default_user.png'" style="min-width: 3cm; min-height: 3cm; max-width: 3cm; max-height: 3cm;" >
+        <img class="rounded-circle img-thumbnail" src={{this.displayPicture}} alt="from user image"  onerror="this.onerror=null; this.src='../../public/js/default_user.png'" style="min-width: 5cm; min-height: 5cm; max-width: 5cm; max-height: 5cm;" >
     
         <div class="col">
             <a href="users/{{this.fromUserId}}">
               <span class="fs-3 ml-3">{{this.fromUser}}</span>
             </a>
-            <p class="col-12 fs-5">{{this.message}}</p>
+            <label for="{{this.fromUser}} description">
+              <p name="{{this.fromUser}} description" class="col-10 fs-5">{{this.description}}</p>
+            </label>
+            <label for="{{this.fromUser}} interests">
+              <p name="{{this.fromUser}} interests" class="col-10 fs-5">{{this.interests}}</p>
+            </label>
+            <label for="{{this.fromUser}} age">
+              <p name="{{this.fromUser}} age" class="col-10 fs-5">{{this.age}}</p>
+            </label>
+            <label for="{{this.fromUser}} gender">
+              <p name="{{this.fromUser}} gender" class="col-10 fs-5">{{this.gender}}</p>
+            </label>
         </div>
       </div>
     {{/each}}
