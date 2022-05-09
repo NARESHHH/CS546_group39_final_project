@@ -1,53 +1,78 @@
-<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
-    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-      <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-      <span class="fs-4">Sidebar</span>
-    </a>
-    <hr>
-    <ul class="nav nav-pills flex-column mb-auto">
-      <li class="nav-item">
-        <a href="#" class="nav-link active" aria-current="page">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
-          Home
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link text-white">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
-          Dashboard
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link text-white">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
-          Orders
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link text-white">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
-          Products
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link text-white">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
-          Customers
-        </a>
-      </li>
-    </ul>
-    <hr>
-    <div class="dropdown">
-      <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-        <strong>mdo</strong>
-      </a>
-      <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-        <li><a class="dropdown-item" href="#">New project...</a></li>
-        <li><a class="dropdown-item" href="#">Settings</a></li>
-        <li><a class="dropdown-item" href="#">Profile</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="#">Sign out</a></li>
-      </ul>
+
+  
+<section class="h-100 gradient-custom-2">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-lg-9 col-xl-7">
+        <div class="card">
+          <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
+            <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+              <img src={{response.data.displayPicture}}
+                alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                style="width: 150px; z-index: 1">
+              
+
+            </div>
+            <div class="ms-3 text-black" style="margin-top: 130px; color:#f8f9fa">
+              <h5>{{response.data.firstName}} {{response.data.lastName}}</h5>
+              
+
+            </div>
+          </div>
+          <div class="p-4 text-black" style="background-color: #f8f9fa;">
+            <div class="d-flex justify-content-end text-center py-1">
+              
+              <div class="px-3">
+                <button type="button" class = "btn btn-success">Accept</button>
+              </div>
+                <div>
+                <button type="button" class = "btn btn-danger">Reject</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body p-4 text-black">
+            <div class="mb-5">
+              <p class="lead fw-normal mb-1">About</p>
+              <div class="p-4" style="background-color: #f8f9fa;">
+                {{response.data.description}}
+              </div>
+            </div>
+            <div class="mb-5">
+              <p class="lead fw-normal mb-1">Details</p>
+              <div class="p-4" style="background-color: #f8f9fa;">
+                <p class="font-italic mb-1">{{response.data.age}}</p>
+                <p class="font-italic mb-1">Lives in New York</p>
+                <p class="font-italic mb-0">Photographer</p>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <p class="lead fw-normal mb-0">Recent photos</p>
+              <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p>
+            </div>
+            <div class="row g-2">
+              <div class="col mb-2">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(112).webp"
+                  alt="image 1" class="w-100 rounded-3">
+              </div>
+              <div class="col mb-2">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp"
+                  alt="image 1" class="w-100 rounded-3">
+              </div>
+            </div>
+            <div class="row g-2">
+              <div class="col">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(108).webp"
+                  alt="image 1" class="w-100 rounded-3">
+              </div>
+              <div class="col">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(114).webp"
+                  alt="image 1" class="w-100 rounded-3">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+</section>
+

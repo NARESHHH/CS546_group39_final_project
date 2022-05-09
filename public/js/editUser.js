@@ -1,4 +1,4 @@
-async function signUpUI(event) {
+async function editUserUI(event) {
   try {
     event.preventDefault();
     const signUpFirstName = document.getElementById("signup-firstName").value;
@@ -38,8 +38,8 @@ async function signUpUI(event) {
 
     data = JSON.stringify(data);
 
-    let response = await fetch("/users/signup", {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
+    let response = await fetch("/users/", {
+      method: "PUT", // *GET, POST, PUT, DELETE, etc.
       headers: {
         "Content-Type": "application/json",
       },
