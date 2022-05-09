@@ -44,7 +44,7 @@ module.exports = function init(app) {
       secret: "P4Mth25rQyB",
       saveUninitialized: true,
       resave: false,
-      cookie: { maxAge: 60000 },
+      cookie: { maxAge: 600000 },
     })
   );
 

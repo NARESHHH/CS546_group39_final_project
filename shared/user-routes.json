@@ -3,5 +3,6 @@
     "/users/:id": ["GET"],
     "/users/getCurrentUser": ["GET"],
     "/notifications": ["GET"],
-    "/users/logout": ["GET"]
+    "/users/logout": ["GET"],
+    "/users/:id/updateStatus": ["GET"]
 }

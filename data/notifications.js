@@ -13,51 +13,44 @@ module.exports = {
 async function getNotifications(req, res, next) {
   try {
     const userId = req.user.id;
-    // const notifications = await Notifications.aggregate([
-    //   { $match: { userId: new mongoose.Types.ObjectId(userId) } },
-    //   {
-    //     $lookup: {
-    //       from: "users",
-    //       let: { id: "$fromUser" },
-    //       pipeline: [
-    //         {
-    //           $match: { _id: id },
-    //         },
-    //         {
-    //           $project: {
-    //             id: "$_id",
-    //             _id: 0,
-    //             displayPicture: "$displayPicture",
-    //             name: { $concat: ["$firstName", " ", "$lastName"] },
-    //           },
-    //         },
-    //       ],
-    //       as: "users",
-    //     },
-    //   },
-    //   { $unwind: "$users" },
-    //   {
-    //     $project: {
-    //       _id: 0,
-    //       id: "$_id",
-    //       fromUserId: "$fromUser",
-    //       fromUser: "$users.name",
-    //       displayPicture: "$users.displayPicture",
-    //       message: "$value",
-    //       isMessage: {
-    //         $cond: {
-    //           if: { $eq: ["$type", "message"] },
-    //           then: true,
-    //           else: false,
-    //         },
-    //       },
-    //     },
-    //   },
-    // ]);
+    const notifications = await Notifications.aggregate([
+      { $match: { toUserId: new mongoose.Types.ObjectId(userId) } },
+      {
+        $lookup: {
+          from: "users",
+          let: { id: "$fromUserId" },
+          pipeline: [
+            { $match: { $expr: { $eq: ["$_id", "$$id"] } } },
+            {
+              $project: {
+                id: "$_id",
+                _id: 0,
+                displayPicture: "$displayPicture",
+                name: { $concat: ["$firstName", " ", "$lastName"] },
+              },
+            },
+          ],
+          as: "users",
+        },
+      },
+      { $unwind: "$users" },
+      {
+        $project: {
+          _id: 0,
+          id: "$_id",
+          fromUserId: "$fromUserId",
+          fromUser: "$users.name",
+          displayPicture: "$users.displayPicture",
+          message: "$message",
+        },
+      },
+    ]);
     return res.render("notifications/index", {
-        data: dumpNotifications.data,
-        showHeaderSideFlag: true,
-        notificationsFlag: true });
+      // data: dumpNotifications.data,
+      data: notifications,
+      showHeaderSideFlag: true,
+      notificationsFlag: true,
+    });
   } catch (error) {
     if (error instanceof ServerError) {
       next(error);

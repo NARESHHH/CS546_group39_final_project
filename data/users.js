@@ -315,7 +315,7 @@ async function signUp(req, res, next) {
 async function updatedStatus(req, res, next) {
   try {
     const userId = req.params.id;
-    const currentUserId = req.session.id;
+    const currentUserId = req.user.id;
     const status = req.query.status;
     let page = req.query.page;
     const message = req.query.message;
@@ -341,17 +341,20 @@ async function updatedStatus(req, res, next) {
           fromUserId: currentUserId,
           message: `You've been accepted by ${currentUser.firstName} ${currentUser.lastName}, Please click on their Profile to check them out!`,
         });
+        break;
       case "reject":
         await Users.updateOne(
           { _id: currentUserId },
           { $pull: { acceptedUsers: userId }, $push: { rejectedUsers: userId } }
         );
+        break;
       case "report":
         await Notifications.create({
           toUserId: admin.id,
           fromUserId: userId,
           message: message,
         });
+        break;
       case "message":
         if (!isMatched) throw new ServerError(400, "Can't message");
         await Notifications.create({
@@ -359,11 +362,13 @@ async function updatedStatus(req, res, next) {
           fromUserId: currentUser,
           message: message,
         });
+        break;
       case "unmatch":
         await Users.updateOne(
           { _id: currentUserId },
           { $pull: { acceptedUsers: userId } }
         );
+        break;
       case "block":
         if (!currentUser.isAdmin)
           throw new ServerError(
@@ -372,6 +377,7 @@ async function updatedStatus(req, res, next) {
           );
         await Users.updateOne({ _id: userId }, { $set: { isReported: true } });
         await Notifications.deleteOne({ fromUserId: userId });
+        break;
       case "ignore":
         if (!currentUser.isAdmin)
           throw new ServerError(
@@ -385,13 +391,15 @@ async function updatedStatus(req, res, next) {
     }
     switch (page) {
       case "getUser":
-        page = `users/${userId}`;
+        page = `/users/${userId}`;
+        break;
 
       case "getRecommendations":
-        page = "users/getRecommendations";
+        page = "/users/getRecommendations";
+        break;
 
       case "notifications":
-        page = "notifications";
+        page = "/notifications";
 
         break;
 
