@@ -238,9 +238,12 @@ async function login(req, res, next) {
       );
     }
 
+    user.firstName = user.firstName.trim();
+    user.lastName = user.lastName.trim();
+
     req.session.user = {
       id: user.id,
-      name: user.firstName.trim() + " " + user.lastName.trim(),
+      name: user.firstName.substring(0,1).toUpperCase() + user.firstName.substring(1)  + " " + user.lastName.substring(0,1).toUpperCase() + user.lastName.substring(1),
       img: user.displayPicture,
     };
 

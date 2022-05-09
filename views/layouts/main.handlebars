@@ -15,13 +15,9 @@
   {{#if showHeaderSideFlag}}
   
   
-    <div class="d-flex flex-wrap justify-content-center justify-content-lg-start align-content-center mt-3">  
-    <div class="text-center aligns-items-center">
-                        <img src="../../public/img/logo1-removebg-preview.png" style="width: 260px;" alt="logo">
-                          
-                      
-                      </div>
-      
+    <div class="d-flex flex-wrap justify-content-center justify-content-lg-start align-items-center mt-3">  
+      <!--logo-->
+      <img class="img-fluid flex-item" src="../../public/img/logo1-removebg-preview.png" style="width: 7cm; height:1.3cm" alt="logo">                   
       
       <!--Search-->
       <form id="searchForm" class="form-inline ml-auto mr-auto mt-2 mt-md-0 align-middle">
@@ -30,9 +26,9 @@
       </form>
 
       <!--User Image-->
-      <img class="rounded-circle img-fluid" style="width:1.3cm; height:1.3cm" src="{{img}}" alt="User image"  onerror="this.onerror=null; this.src='../../public/js/default_user.png'">
-      <span class="d-inline-block align-content-center align-middle fs-5 ml-2" style="max-width: 150px;">{{name}}</span>
-      <a href="/users/logout" class="btn btn-warning ml-5 mr-3">Logout</a>
+      <img class="flex-item rounded-circle img-fluid" style="width:1.3cm; height:1.3cm" src="{{img}}" alt="User image"  onerror="this.onerror=null; this.src='../../public/js/default_user.png'">
+      <p class="flex-item my-0 ml-2 fs-4">{{name}}</p>
+      <a href="/users/logout" class="btn btn-warning ml-5 mr-3 my-1" style="max-height: 1cm;">Logout</a>
       
     </div>
   </header>
