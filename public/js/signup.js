@@ -5,9 +5,9 @@ async function signUpUI(event) {
     const signUpLastName = document.getElementById("signup-lastName").value;
     const signUpUsername = document.getElementById("signup-username").value;
     const signUpPassword = document.getElementById("signup-password").value;
-    let img = document.getElementById("displayPicture").files[0];
-    img = await convertToBase64(img);
-    document.getElementById("displayPictureImg").src = img;
+    let img = document.getElementById("displayPicture").src;
+    // img = await convertToBase64(img);
+    // document.getElementById("displayPictureImg").src = img;
     const signUpGender = document.querySelector(
       'input[name="gender"]:checked'
     ).value;
@@ -130,13 +130,30 @@ async function getUser(event) {
   }
 }
 
-async function LoadImage() {
-  let img = document.getElementById("displayPicture").files[0];
-  img = await new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(img);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
+// async function LoadImage() {
+//   let img = document.getElementById("displayPicture").files[0];
+//   img = await new Promise((resolve, reject) => {
+//     const reader = new FileReader();
+//     reader.readAsDataURL(img);
+//     reader.onload = () => resolve(reader.result);
+//     reader.onerror = (error) => reject(error);
+//   });
+//   document.getElementById("displayPictureImg").src = img;
+// }
+$(document).ready(function(){
+  // Prepare the preview for profile picture
+      $("#displayPicture").change(function(){
+          readURL(this);
+      });
   });
-  document.getElementById("displayPictureImg").src = img;
-}
+  function readURL(input) {
+      if (input.files && input.files[0]) {
+          var reader = new FileReader();
+  
+          reader.onload = function (e) {
+              $('#displayPictureImg').attr('src', e.target.result).fadeIn('slow');
+              $('#displayPicture').attr('src', e.target.result);
+          }
+          reader.readAsDataURL(input.files[0]);
+      }
+  }
