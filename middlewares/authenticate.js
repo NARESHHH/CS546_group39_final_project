@@ -25,7 +25,6 @@ module.exports = async (req, res, next) => {
       } else {
         return res.redirect("/users/login");
       }
-      return res.redirect("/users/login");
     }
   } catch (error) {
     if (error instanceof ServerError) {
