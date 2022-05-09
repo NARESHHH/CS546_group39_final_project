@@ -26,7 +26,30 @@ async function getCurrentUser(req, res, next) {
 
   const user = await Users.findOne({ _id: userId }).lean();
 
-  res.json({ data: user });
+     let isAccepted = false;
+     let  isRejected = false;
+      let isMatched = false;
+      let isViewEdit = true;
+  
+    res.json('getCurrentStatus',{
+      showHeaderSideFlag: true,
+      profileFlag: true,
+      id: user._id,
+      displayPicture: user.displayPicture,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      age: user.age,
+      gender: user.gender,
+      message: message,
+      description: user.description,
+      interests: user.interests,
+      isAccepted: isAccepted,
+      isRejected: isRejected,
+      isMatched: isMatched,
+      isViewEdit: isViewEdit,
+      showHeaderSideFlag: true,
+
+    });
 }
 
 async function getUsers(req, res, next) {
