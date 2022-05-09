@@ -217,6 +217,8 @@ async function login(req, res, next) {
 
     req.session.user = {
       id: user.id,
+      name: user.firstName.trim() + " " + user.lastName.trim(),
+      img: user.displayPicture,
     };
 
     return res.json({ data: { url: "/users/getRecommendations" } });
@@ -464,7 +466,9 @@ async function getRecommendations(req, res, next) {
     return res.render("users/getRecommendations", {
       response,
       showHeaderSideFlag: true,
-      recommendationFlag: true,
+      recommendationsFlag: true,
+      img: req.session.img,
+      name: req.session.name, 
     });
   } catch (error) {
     if (error instanceof ServerError) {
@@ -473,3 +477,4 @@ async function getRecommendations(req, res, next) {
     next(new ServerError(500, error.message));
   }
 }
+
