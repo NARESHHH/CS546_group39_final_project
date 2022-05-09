@@ -2,83 +2,84 @@
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col col-lg-9 col-xl-7">
-      {{#if response.data}}
         <div class="card">
           <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
             <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
-              <img src={{response.data.displayPicture}}
+              <img src={{displayPicture}}
                 alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
                 style="width: 150px; z-index: 1">
               
-
+              {{#if isViewEdit}}
+              <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                style="z-index: 1;">
+                Edit profile
+              </button>
+              {{/if}}
             </div>
-            <div class="ms-3 text-black" style="margin-top: 130px; color:#f8f9fa">
+            <div class="ms-3" style="margin-top: 130px; color:#fff">
+              <h5> <span style="color:white">{{firstName}} {{lastName}}</span> </h5>
               
-              <h5><span style="color:white">{{response.data.firstName}} {{response.data.lastName}}</h5></span>
-              
-
             </div>
           </div>
           <div class="p-4 text-black" style="background-color: #f8f9fa;">
             <div class="d-flex justify-content-end text-center py-1">
+              {{#if isMatched}}
+              <div class="px-3">
+                <button type="text" class = "btn btn-success">Its a Match</button>
+              </div>
+              {{/if}}
               
               <div class="px-3">
-                
+                <p>{{message}}</p>
+              </div>
+                            
+              {{#if isAccepted}}
+              <div class="px-3">
                 <button type="button" class = "btn btn-success">Accept</button>
               </div>
+              {{/if}}
+              {{#if isRejected}}
                 <div>
                 <button type="button" class = "btn btn-danger">Reject</button>
               </div>
+              {{/if}}
+
             </div>
           </div>
           <div class="card-body p-4 text-black">
             <div class="mb-5">
               <p class="lead fw-normal mb-1">About</p>
               <div class="p-4" style="background-color: #f8f9fa;">
-                {{response.data.description}}
+                {{description}}
               </div>
             </div>
             <div class="mb-5">
               <p class="lead fw-normal mb-1">Details</p>
               <div class="p-4" style="background-color: #f8f9fa;">
                 
-                <p class="font-italic mb-1">Age:{{response.data.age}}</p>
-                <p class="font-italic mb-1">Gender:{{response.data.gender}}</p>
-                <p >Interested in: {{response.data.interests}}</p>
+                <p class="font-italic mb-1">Age:{{age}}</p>
+                <p class="font-italic mb-1">Gender:{{gender}}</p>
+                <p >Interested in: {{interests}}</p>
                 
                 
               </div>
             </div>
-            <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
               <p class="lead fw-normal mb-0">Recent photos</p>
               <p class="mb-0"><a href="#!" class="text-muted">+</a></p>
             </div>
             <div class="row g-2">
               <div class="col mb-2">
-                <img src={{response.data.displayPicture}}
+                <img src={{displayPicture}}
                   alt="image 1" class="w-100 rounded-3">
               </div>
               
             </div>
             
+            
+            
           </div>
         </div>
-      {{else }}
-        <div class="card">
-          
-        <div class="mb-5">
-              <p class="lead fw-normal mb-1">Details</p>
-              <div class="p-4" style="background-color: #f8f9fa;">
-                <p>End of Reccomendations. Please update User Preferences </p>
-              </div>
-        </div>
-
-        </div>
-
-      {{/if}}
-
-
-        
       </div>
     </div>
   </div>

@@ -6,9 +6,7 @@ const ServerError = require("../shared/server-error");
 module.exports = async (req, res, next) => {
   try {
     const path = getCustomRouteURL(req.path);
-    // req.session.user = {
-    //   id: '627779b1ea9d70d5524a074d',
-    // };
+    
     if (noAuthRoutes[path] && noAuthRoutes[path].includes(req.method)) {
       const ip = req.headers["x-forwarded-for"] || "148.75.0.38";
       req.user = {
