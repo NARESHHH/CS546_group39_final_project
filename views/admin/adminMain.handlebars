@@ -1,0 +1,30 @@
+
+  <header class="p-3 bg-dark text-white">
+    <div class="d-flex flex-wrap justify-content-center justify-content-lg-start align-content-center">  
+    
+      <span class="fs-4 ml-5 mr-auto">Hi {{name}}</span>
+
+      <!--Admin Image-->
+      <img class="rounded-circle ml-auto" style="max-width: 1cm;" src="{{img}}" alt="User image"  onerror="this.onerror=null; this.src='../../public/js/default_user.png'">
+      <a href="/users/logout" class="btn btn-outline-warning align-self-end ml-3 mr-3">Logout</a>
+      
+    </div>
+  </header>
+      
+    {{#each data}}
+      <div name="notifications" class="col-12 alert alert-secondary row align-items-center ml-0" role="alertdialog">  
+        
+        <img class="rounded-circle img-thumbnail" src={{this.displayPicture}} alt="from user image"  onerror="this.onerror=null; this.src='../../public/js/default_user.png'" style="min-width: 3cm; min-height: 3cm; max-width: 3cm; max-height: 3cm;" >
+    
+        <div class="col">
+            <a href="users/{{this.fromUserId}}">
+              <span class="fs-3 ml-3">{{this.fromUser}}</span>
+            </a>
+            <p class="col-12 fs-5">{{this.message}}</p>
+            <div>
+                <a href="/users/{{this.fromUserId}}/updateStatus?status=block&page=notifications" name="blockButton" class="col-2 btn btn-danger align-self-end ml-3 mr-3">Block</a>
+                <a href="/users/{{this.fromUserId}}/updateStatus?status=ignore&page=notifications" name="messageButton" class="col-2 btn btn-primary align-self-end ml-3 mr-3">Ignore</a>
+            </div>
+        </div>
+      </div>
+    {{/each}}

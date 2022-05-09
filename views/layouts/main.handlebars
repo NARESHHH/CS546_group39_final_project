@@ -24,8 +24,8 @@
       </form>
 
       <!--User Image-->
-      <img class="rounded-circle" style="max-width: 1cm;" src="#" alt="User image"  onerror="this.onerror=null; this.src='../../public/js/default_user.png'">
-      <button type="button" class="btn btn-outline-warning align-self-end ml-3 mr-3">Logout</button>
+      <img class="rounded-circle" style="max-width: 1cm;" src="{{img}}" alt="User image"  onerror="this.onerror=null; this.src='../../public/js/default_user.png'">
+      <a href="/users/logout" class="btn btn-outline-warning align-self-end ml-3 mr-3">Logout</a>
       
     </div>
   </header>
@@ -42,8 +42,8 @@
       <hr>
       <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
-            <a href="#" {{#if recommendationsFlag}} class="nav-link active" {{else}} class="nav-link text-white" {{/if}} aria-current="page">
-            <svg class="bi me-2" width="16" height="16"><use xlink:href="/users/getRecommendations"></use></svg>
+            <a href="/users/getRecommendations" {{#if recommendationsFlag}} class="nav-link active" {{else}} class="nav-link text-white" {{/if}} aria-current="page">
+            <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
             Home
             </a>
         </li>
@@ -53,20 +53,20 @@
             My Profile
             </a>
         </li>
-        <li>
+        {{!-- <li>
             <a href="#" {{#if settingsFlag}} class="nav-link active" {{else}} class="nav-link text-white" {{/if}} >
             <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
             Settings
             </a>
-        </li>
+        </li> --}}
         <li>
-            <a href="#" {{#if notificationsFlag}} class="nav-link active" {{else}} class="nav-link text-white" {{/if}} >
+            <a href="/notifications" {{#if notificationsFlag}} class="nav-link active" {{else}} class="nav-link text-white" {{/if}} >
             <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
-            Notifications
+            Notifications<span class="badge fs-6s">{{numNotifications}}</span>
             </a>
         </li>
         <li>
-            <a href="#" {{#if matchesFlag}} class="nav-link active" {{else}} class="nav-link text-white" {{/if}} >
+            <a href="/users/getMatchedUsers" {{#if matchesFlag}} class="nav-link active" {{else}} class="nav-link text-white" {{/if}} >
             <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
             My matches
             </a>
@@ -78,9 +78,9 @@
     <!--Side bar end _________________________________-->
 
     <!--body__________________________________________-->
-    {{#if showHeaderSideFlag}}<div class="m-3">{{/if}}
+    <div class="m-3 flex-fill">
         {{{body}}} 
-    {{#if showHeaderSideFlag}}</div>{{/if}}
+    </div>
     <!--body end______________________________________--> 
 
   </div>
