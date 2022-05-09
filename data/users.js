@@ -15,8 +15,12 @@ module.exports = {
   getUser,
   editUser,
   updatedStatus,
+  getCurrentUser,
 };
 
+async function getCurrentUser(req,res,next){
+
+}
 async function getLoginPage(req, res, next) {
   try {
     return res.render("users/login");
@@ -42,11 +46,13 @@ async function getSignUpPage(req, res, next) {
 async function getUser(req, res, next) {
   try {
     const currentUserId = req.user.id;
+
     const userId = req.params.id;
     let isAccepted = false;
     let isRejected = false;
     let isMatched = false;
     let isSameUser = false;
+    let message = "";
     if (currentUserId == userId) isSameUser = true;
     const currentUser = await Users.findOne({ _id: currentUserId }).lean();
     const user = await Users.findOne({ _id: userId }).lean();
@@ -54,28 +60,41 @@ async function getUser(req, res, next) {
     if (
       currentUser.acceptedUsers.includes(userId) &&
       user.acceptedUsers.includes(currentUserId)
-    )
+    ){
       isMatched = true;
+      isRejected=true;
+    }
     else if (
       currentUser.acceptedUsers.includes(userId) &&
       !user.acceptedUsers.includes(currentUserId)
-    )
-      isAccepted = true;
-    else if (currentUser.rejectedUsers.includes(userId)) isRejected = true;
+    ){
+      
+      isRejected = true;
+    
+    }
+      
+    else if (currentUser.rejectedUsers.includes(userId)) isAccepted = true;
 
-    return res.render("users/getUser", {
+    else{
+      isAccepted = true;
+      isRejected = true;
+    }
+
+    return res.render("users/userProfile", {
       id: user._id,
       displayPicture: user.displayPicture,
       firstName: user.firstName,
       lastName: user.lastName,
       age: user.age,
       gender: user.gender,
+      message: message,
       description: user.description,
       interests: user.interests,
       isAccepted: isAccepted,
       isRejected: isRejected,
       isMatched: isMatched,
       isSameUser: isSameUser,
+      showHeaderSideFlag:true
     });
   } catch (error) {
     if (error instanceof ServerError) {
