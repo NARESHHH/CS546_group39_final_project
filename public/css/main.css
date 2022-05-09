@@ -28,19 +28,19 @@ h6 {
 }
 
 h1 {
-  font-size: 2rem;
-}
-
-h2 {
-  font-size: 1.75rem;
-}
-
-h3 {
   font-size: 1.5rem;
 }
 
-h4 {
+h2 {
   font-size: 1.25rem;
+}
+
+h3 {
+  font-size: 1rem;
+}
+
+h4 {
+  font-size: 0.5rem;
 }
 
 h5 {
@@ -54,6 +54,9 @@ h6 {
 p {
   font-size: 1rem;
   line-height: 2;
+  color:rgb(36, 3, 3);
+  
+  
 }
 
 .post {
