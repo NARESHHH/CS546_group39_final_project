@@ -41,13 +41,43 @@ async function getSignUpPage(req, res, next) {
 
 async function getUser(req, res, next) {
   try {
-    const user = await Users.findOne({ _id: req.params.id }).lean();
-    const img = user.displayPicture;
+    const currentUserId = req.user.id;
+    const userId = req.params.id;
+    let isAccepted = false;
+    let isRejected = false;
+    let isMatched = false;
+    let isSameUser = false;
+    if (currentUserId == userId) isSameUser = true;
+    const currentUser = await Users.findOne({ _id: currentUserId }).lean();
+    const user = await Users.findOne({ _id: userId }).lean();
+
+    if (
+      currentUser.acceptedUsers.includes(userId) &&
+      user.acceptedUsers.includes(currentUserId)
+    )
+      isMatched = true;
+    else if (
+      currentUser.acceptedUsers.includes(userId) &&
+      !user.acceptedUsers.includes(currentUserId)
+    )
+      isAccepted = true;
+    else if (currentUser.rejectedUsers.includes(userId)) isRejected = true;
+
     return res.render("users/getUser", {
-      img: img,
-      name: `${user.firstName} ${user.lastName}`,
       showHeaderSideFlag: true,
-      recommendationsFlag: true
+      recommendationsFlag: true,
+      id: user._id,
+      displayPicture: user.displayPicture,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      age: user.age,
+      gender: user.gender,
+      description: user.description,
+      interests: user.interests,
+      isAccepted: isAccepted,
+      isRejected: isRejected,
+      isMatched: isMatched,
+      isSameUser: isSameUser,
     });
   } catch (error) {
     if (error instanceof ServerError) {
@@ -280,6 +310,7 @@ async function getRecommendations(req, res, next) {
       isAccepted: false,
       isRejected: false,
       isMatched: false,
+      isSameUser: false,
     };
     return res.render('users/getRecommendations',{response,showHeaderSideFlag:true});
   } catch (error) {
