@@ -31,7 +31,7 @@ async function getCurrentUser(req, res, next) {
       let isMatched = false;
       let isViewEdit = true;
   
-    res.json('getCurrentStatus',{
+    res.render('users/getCurrentUser',{
       showHeaderSideFlag: true,
       profileFlag: true,
       id: user._id,
@@ -40,7 +40,7 @@ async function getCurrentUser(req, res, next) {
       lastName: user.lastName,
       age: user.age,
       gender: user.gender,
-      message: message,
+      
       description: user.description,
       interests: user.interests,
       isAccepted: isAccepted,
