@@ -88,7 +88,8 @@ async function login(req, res, next) {
       id: user.id,
     };
 
-    return res.json({ data: { url: `/users/${user.id}` } });
+    return res.json({data: {url: '/users/getRecommendations'}});
+
   } catch (error) {
     if (error instanceof ServerError) {
       next(error);
@@ -149,7 +150,7 @@ async function updatedStatus(req,res,next){
 async function getRecommendations(req, res, next) {
   try {
     const userId = req.user.id;
-    let maxDistance = req.query.maxDistance;
+    let maxDistance = 1;
 
     if (isNaN(maxDistance)) throw new ServerError(400, "Invalid max distance");
 
@@ -224,7 +225,7 @@ async function getRecommendations(req, res, next) {
       isRejected: false,
       isMatched: false,
     };
-    return res.send(response);
+    return res.render('users/getRecommendations',{response,showHeaderSideFlag:true});
   } catch (error) {
     if (error instanceof ServerError) {
       next(error);

@@ -29,6 +29,7 @@
       
     </div>
   </header>
+  
   {{/if}}
 
 
@@ -42,13 +43,13 @@
       <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
             <a href="#" {{#if recommendationsFlag}} class="nav-link active" {{else}} class="nav-link text-white" {{/if}} aria-current="page">
-            <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+            <svg class="bi me-2" width="16" height="16"><use xlink:href="/users/getRecommendations"></use></svg>
             Home
             </a>
         </li>
         <li>
             <a href="#" {{#if profileFlag}} class="nav-link active" {{else}} class="nav-link text-white" {{/if}} >
-            <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+            <svg class="bi me-2" width="16" height="16"><use xlink:href="/users/viewProfile"></use></svg>
             My Profile
             </a>
         </li>

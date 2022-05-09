@@ -7,18 +7,16 @@
         <div class="card">
           <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
             <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+              <img src={{response.data.displayPicture}}
                 alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
                 style="width: 150px; z-index: 1">
               
-              <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
-                style="z-index: 1;">
-                Edit profile
-              </button>
+
             </div>
-            <div class="ms-3" style="margin-top: 130px;">
-              <h5>Andy Horwitz</h5>
-              <p>New York</p>
+            <div class="ms-3 text-black" style="margin-top: 130px; color:#f8f9fa">
+              <h5>{{response.data.firstName}} {{response.data.lastName}}</h5>
+              
+
             </div>
           </div>
           <div class="p-4 text-black" style="background-color: #f8f9fa;">
@@ -36,7 +34,13 @@
             <div class="mb-5">
               <p class="lead fw-normal mb-1">About</p>
               <div class="p-4" style="background-color: #f8f9fa;">
-                <p class="font-italic mb-1">Web Developer</p>
+                {{response.data.description}}
+              </div>
+            </div>
+            <div class="mb-5">
+              <p class="lead fw-normal mb-1">Details</p>
+              <div class="p-4" style="background-color: #f8f9fa;">
+                <p class="font-italic mb-1">{{response.data.age}}</p>
                 <p class="font-italic mb-1">Lives in New York</p>
                 <p class="font-italic mb-0">Photographer</p>
               </div>
