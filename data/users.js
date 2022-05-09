@@ -18,9 +18,33 @@ module.exports = {
   updatedStatus,
   getCurrentUser,
   logout,
+  getUsers,
 };
 
 async function getCurrentUser(req, res, next) {}
+
+async function getUsers(req, res, next) {
+  const searchTerm = req.query.searchTerm;
+
+  const users = await Users.aggregate([
+    {
+      $match: {
+        name: new RegExp(`.*${searchTerm}.*`, "i"),
+      },
+    },
+    {
+      $project: {
+        id: "$_id",
+        _id: 0,
+        displayPicture: "$displayPicture",
+        name: "$name",
+      },
+    },
+  ]);
+
+  return res.render("users/getUsers", { data: users });
+}
+
 async function getLoginPage(req, res, next) {
   try {
     return res.render("users/login");
@@ -129,6 +153,7 @@ async function editUser(req, res, next) {
         $set: {
           firstName: requestBody.firstName,
           lastName: requestBody.lastName,
+          name: `${requestBody.firstName} ${requestBody.lastName}`,
           username: user.username,
           password: password ? password : user.password,
           displayPicture: requestBody.displayPicture,
@@ -231,6 +256,7 @@ async function signUp(req, res, next) {
     const response = await Users.create({
       firstName: requestBody.firstName,
       lastName: requestBody.lastName,
+      name: `${requestBody.firstName} ${requestBody.lastName}`,
       username: username,
       password: password,
       displayPicture: requestBody.displayPicture,

@@ -2,6 +2,7 @@ const users = require("../data/users");
 
 const router = require("express").Router();
 
+router.get("/", users.getUsers);
 router.get("/login", users.getLoginPage);
 router.post("/login", users.login);
 router.get("/signup", users.getSignUpPage);
