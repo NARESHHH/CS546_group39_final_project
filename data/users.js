@@ -13,7 +13,8 @@ module.exports = {
   signUp,
   getRecommendations,
   getUser,
-  updatedStatus
+  editUser,
+  updatedStatus,
 };
 
 async function getLoginPage(req, res, next) {
@@ -46,6 +47,60 @@ async function getUser(req, res, next) {
       img: img,
       name: `${user.firstName} ${user.lastName}`,
     });
+  } catch (error) {
+    if (error instanceof ServerError) {
+      next(error);
+    }
+    next(new ServerError(500, error.message));
+  }
+}
+
+async function editUser(req, res, next) {
+  try {
+    const requestBody = req.body;
+
+    const userId = req.user.id;
+
+    const { error } = validator.validateEditUser(requestBody);
+    if (error) {
+      throw new ServerError(400, error.message);
+    }
+
+    const user = await Users.findOne({ _id: userId });
+
+    if (!user)
+      throw new ServerError(400, "User does not exists with given username");
+    let password;
+
+    if (requestBody.password) {
+      password = await bcrypt.hash(requestBody.password, salt);
+    }
+
+    const coordinates = geoLocation.lookup(req.user.ip);
+
+    const response = await Users.updateOne(
+      { _id: userId },
+      {
+        $set: {
+          firstName: requestBody.firstName,
+          lastName: requestBody.lastName,
+          username: user.username,
+          password: password ? password : user.password,
+          displayPicture: requestBody.displayPicture,
+          gender: requestBody.gender,
+          age: requestBody.age,
+          interests: requestBody.interests,
+          description: requestBody.description,
+          preferences: requestBody.preferences,
+          location: {
+            type: "Point",
+            coordinates: coordinates.ll,
+          },
+        },
+      }
+    );
+
+    return res.json({ data: { url: `/users/${user._id}` } });
   } catch (error) {
     if (error instanceof ServerError) {
       next(error);
@@ -143,9 +198,8 @@ async function signUp(req, res, next) {
   }
 }
 
-async function updatedStatus(req,res,next){
+async function updatedStatus(req, res, next) {}
 
-}
 async function getRecommendations(req, res, next) {
   try {
     const userId = req.user.id;
