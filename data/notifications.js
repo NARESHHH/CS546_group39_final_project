@@ -55,7 +55,7 @@ async function getNotifications(req, res, next) {
     //   },
     // ]);
     return res.render("notifications/index", {
-        data: dumpNotifications,
+        data: dumpNotifications.data,
         showHeaderSideFlag: true,
         notificationsFlag: true });
   } catch (error) {

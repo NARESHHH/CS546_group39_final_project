@@ -5,16 +5,10 @@
         <img class="rounded-circle img-thumbnail" src={{this.displayPicture}} alt="from user image"  onerror="this.onerror=null; this.src='../../public/js/default_user.png'" style="min-width: 3cm; min-height: 3cm; max-width: 3cm; max-height: 3cm;" >
     
         <div class="col">
-            <a href="#">
+            <a href="users/{{this.fromUserId}}">
               <span class="fs-3 ml-3">{{this.fromUser}}</span>
             </a>
             <p class="col-12 fs-5">{{this.message}}</p>
-            {{#if this.isMessage}}
-                <div>
-                    <button id="messageButton" type="button" class="col-2 btn btn-success align-self-end ml-3 mr-3">Message</button>
-                    <button id="blockButton" type="button" class="col-2 btn btn-danger align-self-end ml-3 mr-3">Block</button>
-                </div>
-            {{/if}}
         </div>
       </div>
     {{/each}}
