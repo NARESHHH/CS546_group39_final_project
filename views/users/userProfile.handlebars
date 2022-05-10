@@ -99,10 +99,10 @@
         <h5 class="modal-title" id="exampleModalLabel">Send message to {{response.data.firstName}} {{response.data.lastName}}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-        <form action="" id="messageModal" method="post"><!--url post-->
+        <form action="/notifications/message" id="messageModal" method="post"><!--url post-->
           <div class="modal-body">
             <div class="mb-3">
-              <input type="hidden" value="{{id}}">
+              <input id="message-userId" type="hidden" value="{{id}}">
               <label for="message" class="form-label">Message</label>
               <input type="text" class="form-control" id="message" placeholder="Enter message here!" style="height: 3cm">
             </div>
