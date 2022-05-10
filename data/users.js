@@ -50,6 +50,9 @@ async function getCurrentUser(req, res, next) {
     isMatched: isMatched,
     isViewEdit: isViewEdit,
     showHeaderSideFlag: true,
+
+    img: req.session.user.img,
+    name: req.session.user.name,
   });
 }
 
@@ -72,7 +75,10 @@ async function getUsers(req, res, next) {
     },
   ]);
 
-  return res.render("users/getUsers", { data: users });
+  return res.render("users/getUsers", { 
+      data: users,
+      img: req.session.user.img,
+      name: req.session.user.name, });
 }
 
 async function getLoginPage(req, res, next) {
@@ -126,9 +132,11 @@ async function getAdmin(req, res, next) {
     ]);
 
     return res.render("users/adminMain", {
-      name: user.name,
-      img: user.displayPicture,
+      //name: user.name,
+      //img: user.displayPicture,
       notifications: notifications,
+      img: req.session.user.img,
+      name: req.session.user.name,
     });
   } catch (error) {
     if (error instanceof ServerError) {
@@ -196,6 +204,8 @@ async function getUser(req, res, next) {
       isMatched: isMatched,
       isSameUser: isSameUser,
       showHeaderSideFlag: true,
+      img: req.session.user.img,
+      name: req.session.user.name,
     });
   } catch (error) {
     if (error instanceof ServerError) {
