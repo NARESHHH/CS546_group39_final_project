@@ -29,7 +29,7 @@ module.exports = {
 
 async function getMatchedUsers(req, res, next) {
   try {
-    const userId = xss(req.user.id);
+    const userId = req.user.id;
     const user = await Users.findOne({ _id: userId });
 
     const accpetedIds = user.acceptedUsers.map(
@@ -69,7 +69,7 @@ async function getMatchedUsers(req, res, next) {
 }
 
 async function getCurrentUser(req, res, next) {
-  const userId = xss(req.user.id);
+  const userId = req.user.id;
 
   const user = await Users.findOne({ _id: userId }).lean();
 
@@ -102,7 +102,7 @@ async function getCurrentUser(req, res, next) {
 }
 
 async function getUsers(req, res, next) {
-  const searchTerm = xss(req.query.searchTerm);
+  const searchTerm = req.query.searchTerm;
 
   const users = await Users.aggregate([
     {
@@ -154,7 +154,7 @@ async function getEditUserPage(req, res, next) {
 
 async function getAdmin(req, res, next) {
   try {
-    const userId = xss(req.user.id);
+    const userId = req.user.id;
     const user = await Users.findOne({ _id: userId }).lean();
     if (!user.isAdmin) return res.render("users/login");
 
@@ -218,7 +218,7 @@ async function getSignUpPage(req, res, next) {
 
 async function getUser(req, res, next) {
   try {
-    const currentUserId = xss(req.user.id);
+    const currentUserId = req.user.id;
 
     const userId = req.params.id;
     if (!isObjectId(userId)) throw "userID is not a valid object id";
@@ -282,7 +282,7 @@ async function editUser(req, res, next) {
   try {
     const requestBody = req.body;
 
-    const userId = xss(req.user.id);
+    const userId = req.user.id;
 
     const { error } = validator.validateEditUser(requestBody);
     if (error) {
