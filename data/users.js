@@ -21,8 +21,40 @@ module.exports = {
   logout,
   getUsers,
   getAdmin,
+  getMatchedUsers,
 };
 
+async function getMatchedUsers(req, res, next) {
+  try {
+    const userId = req.user.id;
+    const user = await Users.findOne({ _id: userId });
+
+    const accpetedIds = user.acceptedUsers.map(
+      (id) => new mongoose.Types.ObjectId(id)
+    );
+
+    const matchedUsers = await Users.aggregate([
+      { $match: { _id: { $in: accpetedIds }, acceptedUsers: userId } },
+      {
+        $project: {
+          _id: 0,
+          id: "$_id",
+          name: "$name",
+          displayPicture: "$displayPicture",
+        },
+      },
+    ]);
+    return res.render("users/matchedUsers", {
+      data: matchedUsers,
+      showHeaderSideFlag: true,
+    });
+  } catch (error) {
+    if (error instanceof ServerError) {
+      next(error);
+    }
+    next(new ServerError(500, error.message));
+  }
+}
 async function getCurrentUser(req, res, next) {
   const userId = req.user.id;
 
@@ -75,10 +107,11 @@ async function getUsers(req, res, next) {
     },
   ]);
 
-  return res.render("users/getUsers", { 
-      data: users,
-      img: req.session.user.img,
-      name: req.session.user.name, });
+  return res.render("users/getUsers", {
+    data: users,
+    img: req.session.user.img,
+    name: req.session.user.name,
+  });
 }
 
 async function getLoginPage(req, res, next) {

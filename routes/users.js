@@ -12,6 +12,7 @@ router.get("/getRecommendations", users.getRecommendations);
 router.get("/:id/updateStatus", users.updatedStatus);
 router.get("/logout", users.logout);
 router.get("/getAdmin", users.getAdmin);
+router.get("/getMatchedUsers", users.getMatchedUsers);
 router.get("/:id", users.getUser);
 
 module.exports = router;
