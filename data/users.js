@@ -115,6 +115,7 @@ async function getUsers(req, res, next) {
     data: users,
     img: req.session.user.img,
     name: req.session.user.name,
+    showHeaderSideFlag: true,
   });
 }
 
@@ -348,6 +349,11 @@ async function login(req, res, next) {
       );
     }
 
+    if (user.isReported)
+      throw new ServerError(
+        400,
+        "Your account is reported, Please contact system admin"
+      );
     user.firstName = user.firstName.trim();
     user.lastName = user.lastName.trim();
 

@@ -1,4 +1,5 @@
 {
+    "/users": ["GET"],
     "/users/getRecommendations": ["GET"],
     "/users/:id": ["GET"],
     "/users/getCurrentUser": ["GET"],
