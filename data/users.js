@@ -35,7 +35,14 @@ async function getMatchedUsers(req, res, next) {
     );
 
     const matchedUsers = await Users.aggregate([
-      { $match: { _id: { $in: accpetedIds }, acceptedUsers: userId } },
+      {
+        $match: {
+          _id: { $in: accpetedIds },
+          acceptedUsers: userId,
+          isReported: false,
+          isAdmin: false,
+        },
+      },
       {
         $project: {
           _id: 0,
@@ -99,6 +106,8 @@ async function getUsers(req, res, next) {
     {
       $match: {
         name: new RegExp(`.*${searchTerm}.*`, "i"),
+        isReported: false,
+        isAdmin: false,
       },
     },
     {
@@ -218,6 +227,9 @@ async function getUser(req, res, next) {
     if (currentUserId == userId) isSameUser = true;
     const currentUser = await Users.findOne({ _id: currentUserId }).lean();
     const user = await Users.findOne({ _id: userId }).lean();
+    if (!user) throw new ServerError(400, "User doesnot exists");
+    if (user.isReported) throw new ServerError(400, "User is Reported");
+    if (user.isAdmin) throw new ServerError(400, "User doesnot exists");
 
     if (
       currentUser.acceptedUsers.includes(userId) &&
@@ -278,6 +290,9 @@ async function editUser(req, res, next) {
     const user = await Users.findOne({ _id: userId });
 
     if (!user)
+      throw new ServerError(400, "User does not exists with given username");
+
+    if (user.isAdmin)
       throw new ServerError(400, "User does not exists with given username");
     let password;
 
@@ -572,6 +587,8 @@ async function getRecommendations(req, res, next) {
 
     const preferencesQuery = {
       _id: { $nin: invalidIds },
+      isReported: false,
+      isAdmin: false,
       gender: { $in: user.preferences.genders },
       "preferences.genders": user.gender,
       age: { $gte: user.preferences.age.min, $lte: user.preferences.age.max },
