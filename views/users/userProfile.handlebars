@@ -5,7 +5,7 @@
         <div class="card">
           <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
             <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
-              <img src={{displayPicture}}
+              <img src="{{displayPicture}}"
                 alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
                 style="width: 150px; z-index: 1">
               
@@ -24,8 +24,12 @@
           <div class="p-4 text-black" style="background-color: #f8f9fa;">
             <div class="d-flex justify-content-end text-center py-1">
               {{#if isMatched}}
+              
               <div class="px-3">
-                <button type="text" class = "btn btn-success">Its a Match</button>
+                <a type="button" href = "/users/{{id}}/updateStatus?status=report&page=getRecommendations" class = "btn btn-danger">Report</a>
+              </div>
+              <div class="px-3">
+                <a type="button" href = "/users/{{id}}/updateStatus?status=unmatch&page=getUsers"class = "btn btn-success">Unmatch</a>
               </div>
               <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#messageModal">
                 Message
@@ -41,12 +45,17 @@
                             
               {{#if isAccepted}}
               <div class="px-3">
-                <button type="button" class = "btn btn-success">Accept</button>
+                <a type="button" href = "/users/{{id}}/updateStatus?status=accept&page=getUsers"class = "btn btn-success">Accept</a>
               </div>
               {{/if}}
               {{#if isRejected}}
+<<<<<<< Updated upstream
               <div>
                 <button type="button" class = "btn btn-danger">Reject</button>
+=======
+                <div>
+                <a href="/users/{{id}}/updateStatus?status=reject&page=getUsers" type="button" class = "btn btn-danger">Reject</a>
+>>>>>>> Stashed changes
               </div>
               {{/if}}
 

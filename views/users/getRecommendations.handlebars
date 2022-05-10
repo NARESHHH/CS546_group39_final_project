@@ -6,7 +6,7 @@
         <div class="card">
           <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
             <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
-              <img src={{response.data.displayPicture}}
+              <img src="{{response.data.displayPicture}}"
                 alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
                 style="width: 150px; z-index: 1">
               
@@ -25,7 +25,7 @@
                 
                 <a href="/users/{{response.data.id}}/updateStatus?status=accept&page=getRecommendations" class = "btn btn-success">Accept</a>
               </div>
-                <div>
+                <div class="px-3">
                 <a href="/users/{{response.data.id}}/updateStatus?status=reject&page=getRecommendations" type="button" class = "btn btn-danger">Reject</a>
               </div>
             </div>

@@ -224,7 +224,7 @@ async function getUser(req, res, next) {
       user.acceptedUsers.includes(currentUserId)
     ) {
       isMatched = true;
-      isRejected = true;
+      
     } else if (
       currentUser.acceptedUsers.includes(userId) &&
       !user.acceptedUsers.includes(currentUserId)
