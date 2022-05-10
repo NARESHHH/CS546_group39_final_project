@@ -50,6 +50,8 @@ async function getNotifications(req, res, next) {
       data: notifications,
       showHeaderSideFlag: true,
       notificationsFlag: true,
+      img: req.session.user.img,
+      name: req.session.user.name,
     });
   } catch (error) {
     if (error instanceof ServerError) {
