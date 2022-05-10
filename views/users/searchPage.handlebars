@@ -1,7 +1,7 @@
 <section class="h-100 gradient-custom-2">
 {{#if data}} 
     {{#each data}}
-      <div name="notifications" class="col-12 alert alert-secondary row align-items-center ml-0" role="alertdialog">  
+      <div name="notifications" class="col-12 alert alert-secondary row align-items-center m-3" role="alertdialog">  
         
         <img class="rounded-circle img-thumbnail" src="{{this.displayPicture}}" alt="from user image"  onerror="this.onerror=null; this.src='../../public/js/default_user.png'" style="min-width: 5cm; min-height: 5cm; max-width: 5cm; max-height: 5cm;" >
     
@@ -13,7 +13,7 @@
       </div>
     {{/each}}
 {{else}}
-    <div class="card">
+    <div class="card m-3">
         
       <div class="mb-5">
             <p class="lead fw-normal mb-1">Details</p>
