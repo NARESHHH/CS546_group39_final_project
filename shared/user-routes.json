@@ -8,6 +8,7 @@
     "/notifications/message": ["POST"],
     "/notifications/report": ["POST"],
     "/users/logout": ["GET"],
+    "/users/images": ["POST"],
     "/users/getAdmin": ["GET"],
     "/users/getMatchedUsers": ["GET"],
     "/users/:id/updateStatus": ["GET"]

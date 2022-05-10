@@ -1,5 +1,6 @@
 const Users = require("../models/users");
 const Notifications = require("../models/notifications");
+const Images = require("../models/images");
 const validator = require("../validators/users");
 const ServerError = require("../shared/server-error");
 const bcrypt = require("bcrypt");
@@ -25,6 +26,7 @@ module.exports = {
   getAdmin,
   getMatchedUsers,
   getEditUserPage,
+  uploadImage,
 };
 
 async function getMatchedUsers(req, res, next) {
@@ -73,6 +75,11 @@ async function getCurrentUser(req, res, next) {
 
   const user = await Users.findOne({ _id: userId }).lean();
 
+  const images = await Images.find(
+    { userId: userId },
+    { img: 1, userId: 0 }
+  ).lean();
+
   let isAccepted = false;
   let isRejected = false;
   let isMatched = false;
@@ -87,6 +94,7 @@ async function getCurrentUser(req, res, next) {
     lastName: user.lastName,
     age: user.age,
     gender: user.gender,
+    gallery: images,
 
     description: user.description,
     interests: user.interests,
@@ -141,6 +149,22 @@ async function getLoginPage(req, res, next) {
   }
 }
 
+async function uploadImage(req, res, next) {
+  try {
+    const id = req.user.id;
+    const img = req.body.img;
+
+    await Images.create({
+      userId: id,
+      img: img,
+    });
+  } catch (error) {
+    if (error instanceof ServerError) {
+      next(error);
+    }
+    next(new ServerError(500, error.message));
+  }
+}
 async function getEditUserPage(req, res, next) {
   try {
     return res.render("users/editUser");
@@ -229,6 +253,10 @@ async function getUser(req, res, next) {
     let message = "";
     if (currentUserId == userId) isSameUser = true;
     const currentUser = await Users.findOne({ _id: currentUserId }).lean();
+    const images = await Images.find(
+      { userId: userId },
+      { userId: 0, img: 1 }
+    ).lean();
     const user = await Users.findOne({ _id: userId }).lean();
     if (!user) throw new ServerError(400, "User doesnot exists");
     if (user.isReported) throw new ServerError(400, "User is Reported");
@@ -259,6 +287,7 @@ async function getUser(req, res, next) {
       lastName: user.lastName,
       age: user.age,
       gender: user.gender,
+      gallery: images,
       message: message,
       description: user.description,
       interests: user.interests,

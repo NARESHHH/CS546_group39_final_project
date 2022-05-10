@@ -69,3 +69,26 @@ function readURL(input) {
     reader.readAsDataURL(input.files[0]);
   }
 }
+async function uploadPhoto(event) {
+  try {
+    event.preventDefault();
+    let img = document.getElementById("displayPicture").src;
+    let data = {
+      img: img,
+    };
+
+    data = JSON.stringify(data);
+
+    let response = await fetch("/users/images", {
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: data,
+    });
+    response = await response.json();
+    window.location.href = "/users/getCurrentUser";
+  } catch (error) {
+    console.log(error);
+  }
+}
