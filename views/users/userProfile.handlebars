@@ -27,6 +27,12 @@
               <div class="px-3">
                 <button type="text" class = "btn btn-success">Its a Match</button>
               </div>
+              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#messageModal">
+                Message
+              </button>
+              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#blockModal">
+                Report
+              </button>
               {{/if}}
               
               <div class="px-3">
@@ -39,7 +45,7 @@
               </div>
               {{/if}}
               {{#if isRejected}}
-                <div>
+              <div>
                 <button type="button" class = "btn btn-danger">Reject</button>
               </div>
               {{/if}}
@@ -86,17 +92,11 @@
 </section>
 
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Message
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Send message to {{response.data.firstName}} {{response.data.lastName}}</h5>
+        <h5 class="modal-title" id="messageModalLabel">Send message to {{response.data.firstName}} {{response.data.lastName}}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
         <form action="/notifications/message" id="messageModal" method="post"><!--url post-->
@@ -110,6 +110,30 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Send</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="blockModal" tabindex="-1" aria-labelledby="blockModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="blockModalLabel">Report {{response.data.firstName}} {{response.data.lastName}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+        <form action="/notifications/message" id="blockModal" method="post"><!--url post-->
+          <div class="modal-body">
+            <div class="mb-3">
+              <input id="message-userId" type="hidden" value="{{id}}">
+              <label for="message" class="form-label">Reason</label>
+              <input type="text" class="form-control" id="message" placeholder="Enter reason here!" style="height: 3cm">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Report</button>
           </div>
         </form>
     </div>
