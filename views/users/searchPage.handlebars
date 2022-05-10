@@ -1,31 +1,27 @@
+<section class="h-100 gradient-custom-2">
+{{#if response.data}} 
+    {{#each data}}
+      <div name="notifications" class="col-12 alert alert-secondary row align-items-center ml-0" role="alertdialog">  
+        
+        <img class="rounded-circle img-thumbnail" src="{{this.displayPicture}}" alt="from user image"  onerror="this.onerror=null; this.src='../../public/js/default_user.png'" style="min-width: 5cm; min-height: 5cm; max-width: 5cm; max-height: 5cm;" >
+    
+        <div class="col">
+            <a href="users/{{this.id}}">
+              <span class="fs-3 ml-3">{{this.name}}</span>
+            </a>
+        </div>
+      </div>
+    {{/each}}
+{{else}}
+    <div class="card">
+        
+      <div class="mb-5">
+            <p class="lead fw-normal mb-1">Details</p>
+            <div class="p-4" style="background-color: #f8f9fa;">
+              <p>No Users found!</p>
+            </div>
+      </div>
 
-{{#each data}}
-    <div class="card text-white bg-dark mb-3" style="max-width: 20cm;">
-    <div class="row g-0">
-        <div class="col-md-4">
-        <img src="{{this.displayPicture}}" class="img-fluid rounded-start" alt="from user image" onerror="this.onerror=null; this.src='../../public/js/default_user.png'">
-        </div>
-        <div class="col-md-8">
-        <div class="card-body">
-            <h5 class="card-title">
-                <a href="users/{{this.fromUserId}}">
-                <span class="fs-3 ml-3">{{this.fromUser}}</span>
-                </a>
-            </h5>
-            <label for="{{this.fromUser}} description">
-                <p name="{{this.fromUser}} description" class="card-text">{{this.description}}</p>
-            </label>
-            <label for="{{this.fromUser}} interests">
-                <p name="{{this.fromUser}} interests" class="card-text">{{this.interests}}</p>
-            </label>
-            <label for="{{this.fromUser}} age">
-                <p name="{{this.fromUser}} age" class="card-text">{{this.age}}</p>
-            </label>
-            <label for="{{this.fromUser}} gender">
-                <p name="{{this.fromUser}} gender" class="card-text">{{this.gender}}</p>
-            </label>
-        </div>
-        </div>
     </div>
-    </div>
-{{/each}}
+{{/if}}
+</section>

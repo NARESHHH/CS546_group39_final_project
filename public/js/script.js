@@ -38,3 +38,14 @@ $(() => {
     serverError.hide();
   }
 });
+
+async function searchUsers(event) {
+  try {
+    event.preventDefault();
+    const searchTerm = document.getElementById("searchTerm").value;
+
+    window.location.href = `/users?searchTerm=${searchTerm}`;
+  } catch (error) {
+    console.log(error);
+  }
+}

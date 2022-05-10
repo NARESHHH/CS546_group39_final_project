@@ -111,7 +111,7 @@ async function getUsers(req, res, next) {
     },
   ]);
 
-  return res.render("users/getUsers", {
+  return res.render("users/searchPage", {
     data: users,
     img: req.session.user.img,
     name: req.session.user.name,
