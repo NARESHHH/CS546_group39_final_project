@@ -458,7 +458,6 @@ async function signUp(req, res, next) {
 async function updatedStatus(req, res, next) {
   try {
     const userId = req.params.id;
-    if (!Object.isValid(userId)) throw "userID not a valid object id";
     const currentUserId = req.user.id;
     const status = req.query.status;
     let page = req.query.page;

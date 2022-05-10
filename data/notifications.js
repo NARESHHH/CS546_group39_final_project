@@ -23,7 +23,7 @@ async function sendMessage(req, res, next) {
       toUserId: toUserId,
       message: message,
     });
-    return res.json({ data: { url: `/users/${userId}` } });
+    return res.json({ data: { url: "/users/getCurrentUser" } });
   } catch (error) {
     if (error instanceof ServerError) {
       next(error);
@@ -44,7 +44,7 @@ async function reportUser(req, res, next) {
       toUserId: toUserId,
       message: message,
     });
-    return res.json({ data: { url: `/users/${userId}` } });
+    return res.json({ data: { url: "/users/getCurrentUser" } });
   } catch (error) {
     if (error instanceof ServerError) {
       next(error);
