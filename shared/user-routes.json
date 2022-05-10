@@ -4,6 +4,7 @@
     "/users/getCurrentUser": ["GET"],
     "/users/editUser": ["GET", "PUT"],
     "/notifications": ["GET"],
+    "/notifications/message": ["POST"],
     "/users/logout": ["GET"],
     "/users/getAdmin": ["GET"],
     "/users/getMatchedUsers": ["GET"],

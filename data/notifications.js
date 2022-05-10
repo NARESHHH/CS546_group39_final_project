@@ -8,7 +8,25 @@ const dumpNotifications =
 
 module.exports = {
   getNotifications,
+  sendMessage,
 };
+async function sendMessage(req, res, next) {
+  try {
+    const userId = req.user.id;
+    const toUserId = req.body["#message-userId"];
+    const message = req.body["#message"];
+    await Notifications.create({
+      fromUserId: userId,
+      toUserId: toUserId,
+      message: message,
+    });
+  } catch (error) {
+    if (error instanceof ServerError) {
+      next(error);
+    }
+    next(new ServerError(500, error.message));
+  }
+}
 
 async function getNotifications(req, res, next) {
   try {
