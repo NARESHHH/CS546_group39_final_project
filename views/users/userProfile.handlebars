@@ -25,18 +25,18 @@
             <div class="d-flex justify-content-end text-center py-1">
               {{#if isMatched}}
               
-              <div class="px-3">
+              {{!-- <div class="px-3">
                 <a type="button" href = "/users/{{id}}/updateStatus?status=report&page=getRecommendations" class = "btn btn-danger">Report</a>
-              </div>
+              </div> --}}
               <div class="px-3">
                 <a type="button" href = "/users/{{id}}/updateStatus?status=unmatch&page=getUser"class = "btn btn-success">Unmatch</a>
               </div>
-              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#messageModal">
-                Message
-              </button>
-              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#blockModal">
-                Report
-              </button>
+              <div class="px-3">
+                <button type="button" class="btn btn-success m-3" data-bs-toggle="modal" data-bs-target="#messageModal">Message</button>
+              </div>
+              <div class="px-3">
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#blockModal">Report</button>
+              </div>
               {{/if}}
               
               <div class="px-3">
