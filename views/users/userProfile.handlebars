@@ -80,10 +80,36 @@
             </div>
             <div class="row g-2">
               <div class="col mb-2">
-                <img src={{displayPicture}}
-                  alt="image 1" class="w-100 rounded-3">
+                {{!-- multiple images --}}
+                  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                      {{#each gallery}}
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{this.id}}" aria-label="Slide {{this.id}}"></button>
+                      {{/each}}
+                    </div>
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <img src={{displayPicture}} alt="One of users image" class="d-block w-100 rounded-2">
+                      </div>
+                      {{#each gallery}}
+                      <div class="carousel-item">
+                        <img src="{{this.userImage}}" class="d-block w-100 rounded-2" alt="One of users image">
+                      </div>
+                      {{/each}}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
+
+                {{!-- <img src={{displayPicture}} alt="image 1" class="w-100 rounded-3"> --}}
               </div>
-              
             </div>
             
             
