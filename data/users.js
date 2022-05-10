@@ -7,9 +7,8 @@ const sendResponse = require("../shared/sendResponse");
 const geoLocation = require("geoip-lite");
 const mongoose = require("mongoose");
 const isObjectId = mongoose.isValidObjectId;
-const { default: xss } = require("xss");
+const xss = require("xss");
 const salt = 10;
-
 
 module.exports = {
   getLoginPage,
@@ -222,7 +221,7 @@ async function getUser(req, res, next) {
     const currentUserId = xss(req.user.id);
 
     const userId = req.params.id;
-    if(!isObjectId(userId)) throw "userID is not a valid object id"
+    if (!isObjectId(userId)) throw "userID is not a valid object id";
     let isAccepted = false;
     let isRejected = false;
     let isMatched = false;
@@ -240,7 +239,6 @@ async function getUser(req, res, next) {
       user.acceptedUsers.includes(currentUserId)
     ) {
       isMatched = true;
-      
     } else if (
       currentUser.acceptedUsers.includes(userId) &&
       !user.acceptedUsers.includes(currentUserId)
@@ -460,7 +458,7 @@ async function signUp(req, res, next) {
 async function updatedStatus(req, res, next) {
   try {
     const userId = req.params.id;
-    if(!Object.isValid(userId)) throw "userID not a valid object id"
+    if (!Object.isValid(userId)) throw "userID not a valid object id";
     const currentUserId = req.user.id;
     const status = req.query.status;
     let page = req.query.page;
