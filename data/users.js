@@ -48,6 +48,8 @@ async function getMatchedUsers(req, res, next) {
     return res.render("users/matchedUsers", {
       data: matchedUsers,
       showHeaderSideFlag: true,
+      img: req.session.user.img,
+      name: req.session.user.name,
     });
   } catch (error) {
     if (error instanceof ServerError) {
@@ -56,6 +58,7 @@ async function getMatchedUsers(req, res, next) {
     next(new ServerError(500, error.message));
   }
 }
+
 async function getCurrentUser(req, res, next) {
   const userId = req.user.id;
 
