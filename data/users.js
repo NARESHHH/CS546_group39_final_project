@@ -5,6 +5,7 @@ const ServerError = require("../shared/server-error");
 const bcrypt = require("bcrypt");
 const sendResponse = require("../shared/sendResponse");
 const geoLocation = require("geoip-lite");
+const mongoose = require("mongoose");
 const salt = 10;
 
 module.exports = {
@@ -19,6 +20,7 @@ module.exports = {
   getCurrentUser,
   logout,
   getUsers,
+  getAdmin,
 };
 
 async function getCurrentUser(req, res, next) {
@@ -26,30 +28,29 @@ async function getCurrentUser(req, res, next) {
 
   const user = await Users.findOne({ _id: userId }).lean();
 
-     let isAccepted = false;
-     let  isRejected = false;
-      let isMatched = false;
-      let isViewEdit = true;
-  
-    res.render('users/getCurrentUser',{
-      showHeaderSideFlag: true,
-      profileFlag: true,
-      id: user._id,
-      displayPicture: user.displayPicture,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      age: user.age,
-      gender: user.gender,
-      
-      description: user.description,
-      interests: user.interests,
-      isAccepted: isAccepted,
-      isRejected: isRejected,
-      isMatched: isMatched,
-      isViewEdit: isViewEdit,
-      showHeaderSideFlag: true,
+  let isAccepted = false;
+  let isRejected = false;
+  let isMatched = false;
+  let isViewEdit = true;
 
-    });
+  res.render("users/getCurrentUser", {
+    showHeaderSideFlag: true,
+    profileFlag: true,
+    id: user._id,
+    displayPicture: user.displayPicture,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    age: user.age,
+    gender: user.gender,
+
+    description: user.description,
+    interests: user.interests,
+    isAccepted: isAccepted,
+    isRejected: isRejected,
+    isMatched: isMatched,
+    isViewEdit: isViewEdit,
+    showHeaderSideFlag: true,
+  });
 }
 
 async function getUsers(req, res, next) {
@@ -85,6 +86,57 @@ async function getLoginPage(req, res, next) {
   }
 }
 
+async function getAdmin(req, res, next) {
+  try {
+    const userId = req.user.id;
+    const user = await Users.findOne({ _id: userId }).lean();
+    if (!user.isAdmin) return res.render("users/login");
+
+    const notifications = await Notifications.aggregate([
+      { $match: { toUserId: new mongoose.Types.ObjectId(userId) } },
+      {
+        $lookup: {
+          from: "users",
+          let: { id: "$fromUserId" },
+          pipeline: [
+            { $match: { $expr: { $eq: ["$_id", "$$id"] } } },
+            {
+              $project: {
+                id: "$_id",
+                _id: 0,
+                displayPicture: "$displayPicture",
+                name: { $concat: ["$firstName", " ", "$lastName"] },
+              },
+            },
+          ],
+          as: "users",
+        },
+      },
+      { $unwind: "$users" },
+      {
+        $project: {
+          _id: 0,
+          id: "$_id",
+          fromUserId: "$fromUserId",
+          fromUser: "$users.name",
+          displayPicture: "$users.displayPicture",
+          message: "$message",
+        },
+      },
+    ]);
+
+    return res.render("users/adminMain", {
+      name: user.name,
+      img: user.displayPicture,
+      notifications: notifications,
+    });
+  } catch (error) {
+    if (error instanceof ServerError) {
+      next(error);
+    }
+    next(new ServerError(500, error.message));
+  }
+}
 async function getSignUpPage(req, res, next) {
   try {
     return res.render("users/signup");
@@ -243,11 +295,18 @@ async function login(req, res, next) {
 
     req.session.user = {
       id: user.id,
-      name: user.firstName.substring(0,1).toUpperCase() + user.firstName.substring(1)  + " " + user.lastName.substring(0,1).toUpperCase() + user.lastName.substring(1),
+      name:
+        user.firstName.substring(0, 1).toUpperCase() +
+        user.firstName.substring(1) +
+        " " +
+        user.lastName.substring(0, 1).toUpperCase() +
+        user.lastName.substring(1),
       img: user.displayPicture,
     };
 
-    return res.json({ data: { url: "/users/getRecommendations" } });
+    let page = "/users/getRecommendations";
+    if (user.isAdmin) page = "/users/getAdmin";
+    return res.json({ data: { url: page } });
   } catch (error) {
     if (error instanceof ServerError) {
       next(error);
@@ -502,7 +561,7 @@ async function getRecommendations(req, res, next) {
       showHeaderSideFlag: true,
       recommendationsFlag: true,
       img: req.session.user.img,
-      name: req.session.user.name, 
+      name: req.session.user.name,
     });
   } catch (error) {
     if (error instanceof ServerError) {
@@ -511,4 +570,3 @@ async function getRecommendations(req, res, next) {
     next(new ServerError(500, error.message));
   }
 }
-

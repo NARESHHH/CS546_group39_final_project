@@ -4,5 +4,6 @@
     "/users/getCurrentUser": ["GET"],
     "/notifications": ["GET"],
     "/users/logout": ["GET"],
+    "/users/getAdmin": ["GET"],
     "/users/:id/updateStatus": ["GET"]
 }
