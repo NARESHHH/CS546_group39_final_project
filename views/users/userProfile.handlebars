@@ -49,13 +49,8 @@
               </div>
               {{/if}}
               {{#if isRejected}}
-<<<<<<< Updated upstream
-              <div>
-                <button type="button" class = "btn btn-danger">Reject</button>
-=======
                 <div>
                 <a href="/users/{{id}}/updateStatus?status=reject&page=getUsers" type="button" class = "btn btn-danger">Reject</a>
->>>>>>> Stashed changes
               </div>
               {{/if}}
 
@@ -111,7 +106,8 @@
         <form action="/notifications/message" id="messageModal" method="post"><!--url post-->
           <div class="modal-body">
             <div class="mb-3">
-              <input id="message-userId" type="hidden" value="{{id}}">
+              <!--input-->
+              <input id="messageUserId" type="hidden" value="{{id}}">
               <label for="message" class="form-label">Message</label>
               <input type="text" class="form-control" id="message" placeholder="Enter message here!" style="height: 3cm">
             </div>
@@ -132,12 +128,13 @@
         <h5 class="modal-title" id="blockModalLabel">Report {{response.data.firstName}} {{response.data.lastName}}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-        <form action="/notifications/message" id="blockModal" method="post"><!--url post-->
+        <form action="/notifications/message" id="blockModal" method="post" onsubmit="sendMessage(event)"><!--url post-->
           <div class="modal-body">
             <div class="mb-3">
-              <input id="message-userId" type="hidden" value="{{id}}">
+              {{!-- input --}}
+              <input id="reportUserId" type="hidden" value="{{id}}">
               <label for="message" class="form-label">Reason</label>
-              <input type="text" class="form-control" id="message" placeholder="Enter reason here!" style="height: 3cm">
+              <input type="text" class="form-control" id="reportMessage" placeholder="Enter reason here!" style="height: 3cm">
             </div>
           </div>
           <div class="modal-footer">
