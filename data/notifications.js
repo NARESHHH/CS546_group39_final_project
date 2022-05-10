@@ -1,4 +1,5 @@
 const Notifications = require("../models/notifications");
+const Users = require("../models/users");
 const validator = require("../validators/notifications");
 const ServerError = require("../shared/server-error");
 const sendResponse = require("../shared/sendResponse");
@@ -9,17 +10,41 @@ const dumpNotifications =
 module.exports = {
   getNotifications,
   sendMessage,
+  reportUser,
 };
+
 async function sendMessage(req, res, next) {
   try {
     const userId = req.user.id;
-    const toUserId = req.body["#message-userId"];
-    const message = req.body["#message"];
+    const toUserId = req.body.toUserId;
+    const message = req.body.message;
     await Notifications.create({
       fromUserId: userId,
       toUserId: toUserId,
       message: message,
     });
+    return res.json({ data: { url: `/users/${userId}` } });
+  } catch (error) {
+    if (error instanceof ServerError) {
+      next(error);
+    }
+    next(new ServerError(500, error.message));
+  }
+}
+
+async function reportUser(req, res, next) {
+  try {
+    const userId = req.user.id;
+    const user = await Users.findOne({ isAdmin: true });
+    const toUserId = user._id;
+    const fromUserId = req.body.toUserId;
+    const message = req.body.message;
+    await Notifications.create({
+      fromUserId: fromUserId,
+      toUserId: toUserId,
+      message: message,
+    });
+    return res.json({ data: { url: `/users/${userId}` } });
   } catch (error) {
     if (error instanceof ServerError) {
       next(error);

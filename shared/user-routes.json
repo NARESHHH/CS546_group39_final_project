@@ -6,6 +6,7 @@
     "/users/editUser": ["GET", "PUT"],
     "/notifications": ["GET"],
     "/notifications/message": ["POST"],
+    "/notifications/report": ["POST"],
     "/users/logout": ["GET"],
     "/users/getAdmin": ["GET"],
     "/users/getMatchedUsers": ["GET"],
