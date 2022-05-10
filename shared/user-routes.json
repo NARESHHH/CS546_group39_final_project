@@ -2,6 +2,7 @@
     "/users/getRecommendations": ["GET"],
     "/users/:id": ["GET"],
     "/users/getCurrentUser": ["GET"],
+    "/users/editUser": ["GET", "PUT"],
     "/notifications": ["GET"],
     "/users/logout": ["GET"],
     "/users/getAdmin": ["GET"],

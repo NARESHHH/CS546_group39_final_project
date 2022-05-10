@@ -22,6 +22,7 @@ module.exports = {
   getUsers,
   getAdmin,
   getMatchedUsers,
+  getEditUserPage,
 };
 
 async function getMatchedUsers(req, res, next) {
@@ -117,6 +118,17 @@ async function getUsers(req, res, next) {
 async function getLoginPage(req, res, next) {
   try {
     return res.render("users/login");
+  } catch (error) {
+    if (error instanceof ServerError) {
+      next(error);
+    }
+    next(new ServerError(500, error.message));
+  }
+}
+
+async function getEditUserPage(req, res, next) {
+  try {
+    return res.render("users/editUser");
   } catch (error) {
     if (error instanceof ServerError) {
       next(error);

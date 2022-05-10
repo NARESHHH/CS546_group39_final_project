@@ -38,7 +38,7 @@ async function editUserUI(event) {
 
     data = JSON.stringify(data);
 
-    let response = await fetch("/users/", {
+    let response = await fetch("/users/editUser", {
       method: "PUT", // *GET, POST, PUT, DELETE, etc.
       headers: {
         "Content-Type": "application/json",
