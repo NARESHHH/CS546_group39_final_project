@@ -1,0 +1,28 @@
+<section class="h-100 gradient-custom-2">
+   {{#if data}}   
+    {{#each data}}
+      <div name="notifications" class="col-12 alert alert-secondary row align-items-center ml-0 m-3" role="alertdialog">  
+        
+        <img class="rounded-circle img-thumbnail" src={{this.displayPicture}} alt="from user image"  onerror="this.onerror=null; this.src='../../public/js/default_user.png'" style="min-width: 3cm; min-height: 3cm; max-width: 3cm; max-height: 3cm;" >
+    
+        <div class="col">
+            <a href="users/{{this.fromUserId}}">
+              <span class="fs-3 ml-3">{{this.fromUser}}</span>
+            </a>
+            <p class="col-12 fs-5">{{this.message}}</p>
+        </div>
+      </div>
+    {{/each}}
+  {{else}}
+    <div class="card m-3">
+      
+        <div class="row d-flex justify-content-center align-items-center h-100">
+              <div class="p-4" style="background-color: #f8f9fa;">
+                <p>No notifications to display</p>
+              </div>
+        </div>
+
+        </div>
+  {{/if}}
+
+</section>

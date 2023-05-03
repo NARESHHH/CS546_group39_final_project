@@ -1,10 +1,11 @@
-const users = require('../data/users');
-const constructorMethod = (app) => {
-  app.post('/signup', async function (req, res, next) {
-    return await users.signUp(req, res, next);
-  });
+const users = require("./users");
+const notifications = require("./notifications");
 
-  app.use('*', (req, res) => {
+const constructorMethod = (app) => {
+  app.use("/users", users);
+  app.use("/notifications", notifications);
+
+  app.use("*", (req, res) => {
     res.sendStatus(404);
   });
 };
